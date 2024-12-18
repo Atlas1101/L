@@ -1,12 +1,12 @@
+html,
+body,
 #root {
   width: 100%;
-  height: 100vh;
-  /* max-width: 1280px; */
-  /* margin: 0 auto; */
+  max-width: 100vw;
+  overflow-x: hidden;
+  /* Prevents horizontal scrolling */
   margin: 0;
   padding: 0;
-
-
 }
 
 .loader {

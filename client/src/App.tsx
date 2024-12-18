@@ -5,7 +5,11 @@ import "./App.css";
 import Login from "./components/AuthForm/LogIn.tsx";
 import SignUp from "./components/AuthForm/SignUp.tsx";
 import AmutahProfilePage from "./pages/AmutahProfilePage.tsx";
+import VolunteerHome from "./pages/VolunteerHome.tsx";
+import OrganizationProfile from "./pages/Organization-profile.tsx";
+import UserProfile from "./pages/User-profile.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
+import EventPage from "./pages/Event-page.tsx";
 
 function App() {
   return (
