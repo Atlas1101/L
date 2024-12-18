@@ -1,114 +1,109 @@
 import Event from "@/types/EventType";
+
 export default function EventViewCard({ ev }: { ev: Event }) {
     const volunteersCount = ev?.volunteers?.length || 0; // Use volunteers instead of users
     const capacity = ev?.capacity || 1; // Avoid division by zero
     const capacityPercentages = (volunteersCount / capacity) * 100;
 
-    let backgroundColor: string;
-    let textColor = "text-black";
-    let month = "";
+    // Determine styles based on capacity percentage
+    const backgroundGradient =
+        capacityPercentages > 66
+            ? "bg-gradient-to-r from-green-400 to-green-600"
+            : capacityPercentages > 33
+            ? "bg-gradient-to-r from-yellow-400 to-yellow-500"
+            : "bg-gradient-to-r from-red-500 to-red-700";
 
-    // Assign background color based on capacity percentage
-    if (capacityPercentages > 66) {
-        backgroundColor = "bg-zinc-300";
-    } else if (capacityPercentages > 33) {
-        backgroundColor = "bg-yellow-200";
-    } else {
-        backgroundColor = "bg-red-500";
-        textColor = "text-white";
-    }
+    const textColor = capacityPercentages <= 33 ? "text-white" : "text-black";
 
-    // Format the month
-    if (ev?.startTime) {
-        const startDate = new Date(ev.startTime);
-        switch (startDate.getMonth() + 1) {
-            case 1:
-                month = "JAN";
-                break;
-            case 2:
-                month = "FEB";
-                break;
-            case 3:
-                month = "MAR";
-                break;
-            case 4:
-                month = "APR";
-                break;
-            case 5:
-                month = "MAY";
-                break;
-            case 6:
-                month = "JUN";
-                break;
-            case 7:
-                month = "JUL";
-                break;
-            case 8:
-                month = "AUG";
-                break;
-            case 9:
-                month = "SEP";
-                break;
-            case 10:
-                month = "OCT";
-                break;
-            case 11:
-                month = "NOV";
-                break;
-            case 12:
-                month = "DEC";
-                break;
-        }
-    }
+    // Format month using an array for cleaner code
+    const monthNames = [
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC",
+    ];
+    const startDate = ev?.startTime ? new Date(ev.startTime) : null;
+    const month = startDate ? monthNames[startDate.getMonth()] : "--";
+    const day = startDate ? startDate.getDate() : "--";
 
     return (
-        <div className="h-fit my-3 flex flex-col justify-center items-center w-64">
-            <div className="relative">
+        <div className="h-fit my-4 flex flex-col justify-center items-center w-72 hover:scale-105 transform transition-transform duration-300">
+            <div className="relative shadow-lg rounded-lg overflow-hidden bg-white w-full">
+                {/* Event Image - Full Width */}
                 <img
-                    src={ev?.images?.[0] || "https://via.placeholder.com/150"} // Fallback for missing images
+                    src={ev?.images?.[0] || "https://via.placeholder.com/300"}
                     alt="Event"
-                    className="rounded-md"
+                    className="w-full h-48 object-cover" // Full width and fixed height
                 />
-                <div className="flex flex-col bg-white border border-black w-fit p-1 rounded-md absolute top-2 right-2 text-red-500 shadow-3d text-center">
-                    <span>{new Date(ev?.startTime).getDate() || "--"}</span>
-                    <hr />
-                    <span>{month || "--"}</span>
+
+                {/* Date Badge */}
+                <div className="absolute top-4 right-4 flex flex-col bg-white border border-gray-300 text-red-500 text-sm font-semibold rounded-md shadow-md px-2 py-1 text-center">
+                    <span>{day}</span>
+                    <hr className="border-t-1 border-gray-300 my-1" />
+                    <span>{month}</span>
                 </div>
+
+                {/* Capacity Badge */}
                 <div
-                    className={`${backgroundColor} ${textColor} absolute right-2 bottom-2 rounded-md px-2 shadow-3d`}
+                    className={`absolute bottom-4 right-4 ${backgroundGradient} ${textColor} rounded-md px-3 py-1 shadow-lg text-xs font-semibold`}
                 >
-                    <span>
-                        {volunteersCount} / {capacity} volunteers
-                    </span>
+                    {volunteersCount} / {capacity} Volunteers
                 </div>
             </div>
-            <div className="flex flex-col justify-between w-full sm:flex-row">
-                <div className="flex flex-col items-start p-2">
-                    <span className="font-bold">
+
+            {/* Event Details */}
+            <div className="bg-white w-full p-4 rounded-b-lg shadow-md">
+                <div className="mb-2">
+                    <h3 className="font-bold text-lg text-gray-800">
                         {ev?.evName || "Event Name"}
-                    </span>
-                    <span>{ev?.organization?.orgName || "Organization"}</span>
-                    <span className="text-sm">
-                        📍{ev?.address || "Address"}
-                    </span>
+                    </h3>
+                    <p className="text-sm text-gray-600">
+                        {ev?.organization?.orgName || "Organization"}
+                    </p>
                 </div>
-                <div className="flex flex-col items-start p-2 w-auto sm:overflow-x-auto">
-                    <span className="text-end">
-                        {new Date(ev?.startTime).toLocaleTimeString("en-GB", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        }) || "--:--"}
-                        {" -> "}
-                        {new Date(ev?.endTime).toLocaleTimeString("en-GB", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                        }) || "--:--"}
-                    </span>
-                    <div className="flex gap-2 w-full overflow-x-auto h-fit">
-                        {ev?.tags?.map((tag) => (
-                            <span key={tag}>#{tag}</span>
-                        )) || <span>#NoTags</span>}
-                    </div>
+
+                <p className="text-sm text-gray-600 mb-2">
+                    📍 {ev?.address || "Location"}
+                </p>
+
+                {/* Event Time */}
+                <div className="text-sm font-medium text-gray-700 mb-3">
+                    {startDate
+                        ? `${startDate.toLocaleTimeString("en-GB", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                          })} -> ${new Date(ev?.endTime).toLocaleTimeString(
+                              "en-GB",
+                              {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                              }
+                          )}`
+                        : "--:--"}
+                </div>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2">
+                    {ev?.tags?.length ? (
+                        ev.tags.map((tag) => (
+                            <span
+                                key={tag}
+                                className="text-xs font-medium bg-gray-200 rounded-full px-3 py-1 text-gray-700"
+                            >
+                                #{tag}
+                            </span>
+                        ))
+                    ) : (
+                        <span className="text-xs text-gray-500">#NoTags</span>
+                    )}
                 </div>
             </div>
         </div>

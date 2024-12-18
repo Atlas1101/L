@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
 import Autoplay from "embla-carousel-autoplay";
 
 import {
@@ -9,10 +11,15 @@ import {
     CarouselNext,
 } from "@/components/ui/carousel";
 import EventViewCard from "./Event-view-card";
-import { getAllEvents } from "@/api/eventAPI";
+import {
+    getAllEvents,
+    getEventsByUser,
+    getEventsByOrganization,
+} from "@/api/eventAPI";
 import { getUserCity } from "@/utils/userUtils";
 
 export default function EventCarousel({ type }) {
+    const { username, orgName } = useParams(); // Extract route params
     const [events, setEvents] = useState([]);
     const [userCity, setUserCity] = useState("");
     const [loading, setLoading] = useState(true);
@@ -21,10 +28,22 @@ export default function EventCarousel({ type }) {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const data = await getAllEvents();
+                let data;
+
+                // Fetch events based on user or organization context
+                if (username) {
+                    data = await getEventsByUser(username);
+                } else if (orgName) {
+                    data = await getEventsByOrganization(orgName);
+                } else {
+                    data = await getAllEvents(); // Default: fetch all events
+                }
+
                 setEvents(data);
             } catch (err) {
                 setError(err.message || "Failed to fetch events");
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -43,12 +62,12 @@ export default function EventCarousel({ type }) {
         Promise.all([fetchEvents(), fetchCityIfNeeded()])
             .then(() => setLoading(false))
             .catch(() => setLoading(false));
-    }, [type]);
+    }, [type, username, orgName]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
-    // Filter events based on type
+    // Filter and display relevant events
     const currentDate = new Date();
     let filteredEvents = [];
     let title = "";
@@ -66,7 +85,7 @@ export default function EventCarousel({ type }) {
         case "location":
             filteredEvents = events.filter(
                 (event) => event.location === userCity
-            ); // Filter by city
+            );
             title = `Events in ${userCity}`;
             break;
         case "friends":
@@ -74,6 +93,14 @@ export default function EventCarousel({ type }) {
                 (event) => event.friendsGoing?.length > 0
             );
             title = "Events Your Friends Are Going To";
+            break;
+        case "user":
+            title = `Events for ${username}`;
+            filteredEvents = events; // Assume events fetched are already filtered by user
+            break;
+        case "organization":
+            title = `Events by ${orgName}`;
+            filteredEvents = events; // Assume events fetched are already filtered by organization
             break;
         default:
             filteredEvents = events;

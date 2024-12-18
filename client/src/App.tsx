@@ -10,6 +10,7 @@ import VolunteerHome from "./pages/VolunteerHome.tsx";
 import OrganizationProfile from "./pages/Organization-profile.tsx";
 import UserProfile from "./pages/User-profile.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
+import EventPage from "./pages/Event-page.tsx";
 
 function App() {
     return (
@@ -26,7 +27,7 @@ function App() {
                     path="/Organization-profile"
                     element={<OrganizationProfile />}
                 />
-                {/* <Route path="/Amutah-profile" element={<AmutahProfilePage />} /> */}
+                <Route path="/Event-page/:id" element={<EventPage />} />
             </Routes>
         </PageLayout>
     );

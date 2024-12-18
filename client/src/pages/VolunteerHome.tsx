@@ -1,5 +1,6 @@
 import React from "react";
 import EventCarousel from "@/components/EventComponents/EventCarousel";
+import EventGrid from "@/components/EventComponents/EventGrid";
 
 function VolunteerHome() {
     return (
@@ -31,6 +32,10 @@ function VolunteerHome() {
                         Events Your Friends Are Attending
                     </h2> */}
                     <EventCarousel type="friends" />
+                </section>
+
+                <section className="mb-10">
+                    <EventGrid />
                 </section>
             </main>
 
