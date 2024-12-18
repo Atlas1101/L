@@ -1,0 +1,28 @@
+{
+  "Organization": [
+    {
+      "name": "Helping Hands",
+      "generalDetails": "A non-profit organization dedicated to community support and development.",
+      "events": [],
+      "email": "info@helpinghands.org",
+      "phone": "+972501234567",
+      "photos": []
+    },
+    {
+      "name": "Green Future",
+      "generalDetails": "Focuses on environmental sustainability and preservation.",
+      "events": [],
+      "email": "contact@greenfuture.org",
+      "phone": "+972501111111",
+      "photos": []
+    },
+    {
+      "name": "Youth Empowerment",
+      "generalDetails": "Provides educational and mentorship programs for young adults.",
+      "events": [],
+      "email": "admin@youthempowerment.org",
+      "phone": "+972502222222",
+      "photos": []
+    }
+  ]
+}
