@@ -7,6 +7,8 @@ import Login from "./components/AuthForm/LogIn.tsx";
 import SignUp from "./components/AuthForm/SignUp.tsx";
 import AmutahProfilePage from "./pages/AmutahProfilePage.tsx";
 import VolunteerHome from "./pages/VolunteerHome.tsx";
+import OrganizationProfile from "./pages/Organization-profile.tsx";
+import UserProfile from "./pages/User-profile.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
 
 function App() {
@@ -16,8 +18,15 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/" element={<SignUp />} />
-                <Route path="/Amutah-profile" element={<AmutahProfilePage />} />
                 <Route path="/Volunteer-home" element={<VolunteerHome />} />
+
+                <Route path="/User-profile" element={<UserProfile />} />
+
+                <Route
+                    path="/Organization-profile"
+                    element={<OrganizationProfile />}
+                />
+                {/* <Route path="/Amutah-profile" element={<AmutahProfilePage />} /> */}
             </Routes>
         </PageLayout>
     );
