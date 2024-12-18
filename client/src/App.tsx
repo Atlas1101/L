@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 //import Pages
@@ -9,24 +8,24 @@ import AmutahProfilePage from "./pages/AmutahProfilePage.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
 
 function App() {
-    return (
-        <PageLayout>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/" element={<SignUp />} />
-                <Route path="/Amutah-profile" element={<AmutahProfilePage />} />
-            </Routes>
-        </PageLayout>
-    );
+  return (
+    <PageLayout>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<SignUp />} />
+        <Route path="/Amutah-profile" element={<AmutahProfilePage />} />
+      </Routes>
+    </PageLayout>
+  );
 }
 
 function Root() {
-    return (
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
 }
 
 export default Root;

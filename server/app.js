@@ -10,7 +10,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 //routes
 import organizationsRoutes from "./routes/organizationsRoutes.js";
-// import commentsRoutes from "./routes/commentsRoute.js";
+import commentsRoutes from "./routes/commentsRoute.js";
 import eventsRoutes from "./routes/eventsRoutes.js";
 import usersRoutes from "./routes/usersRoute.js";
 
@@ -25,7 +25,7 @@ app.use(morgan("tiny"));
 // app.use(logRequest);
 app.use(
   cors({
-    origin: "http://localhost:5175", // Your frontend's origin
+    origin: "http://localhost:5173", // Your frontend's origin
     credentials: true, // Enable credentials (cookies, etc.)
   })
 );
@@ -48,7 +48,7 @@ app.get("/api/status", (req, res) => {
 });
 
 //use organization
-app.use("/api/org", organizationsRoutes);
+app.use("/api/organizations", organizationsRoutes);
 
 //use events
 app.use("/api/events", eventsRoutes);
@@ -57,7 +57,7 @@ app.use("/api/events", eventsRoutes);
 app.use("/api/users", usersRoutes);
 
 //use comments
-// app.use("/api/comments", commentsRoutes);
+app.use("/api/comments", commentsRoutes);
 
 // socket server
 const server = http.createServer(app);

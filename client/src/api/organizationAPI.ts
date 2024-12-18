@@ -1,6 +1,6 @@
 // organizationApiClient.ts - API calls related to organizations
 import axios from "axios";
-
+import { Organization } from "@/types/user";
 // Define the base URL for the API
 const BASE_URL = "http://localhost:3000/api";
 
@@ -45,7 +45,7 @@ export const getOrganizationByName = async (orgName: string) => {
 };
 
 // Sign up a new organization
-export const signUpOrganization = async (orgData: any) => {
+export const signUpOrganization = async (orgData: Organization) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/organizations/signup`,
@@ -59,8 +59,14 @@ export const signUpOrganization = async (orgData: any) => {
 };
 
 // Sign in an organization
-export const signInOrganization = async (orgData: any) => {
+export const signInOrganization = async (orgData: {
+  email: string;
+  password: string;
+}) => {
+  console.log("hey");
+
   try {
+    console.log(orgData);
     const response = await axios.post(
       `${BASE_URL}/organizations/signIn`,
       orgData,

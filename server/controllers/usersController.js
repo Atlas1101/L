@@ -23,7 +23,6 @@ export const TokenValid = (req, res) => {
 export const createNewUser = async (req, res) => {
   try {
     console.log("Request Body:", req.body);
-
     const { username, email, password, img, bio, city, phone, age } = req.body;
 
     if (!username || !password || !email || !city || !age || !phone) {
@@ -80,11 +79,9 @@ export const createNewUser = async (req, res) => {
 
 //sign in
 export const singInUser = async (req, res) => {
-  const { username, email, password } = req.body;
-  if (!password || (!email && !username)) {
-    return res
-      .status(400)
-      .send({ error: "email/username and password is required" });
+  const { email, password } = req.body;
+  if (!password || !email) {
+    return res.status(400).send({ error: "email and password is required" });
   }
   try {
     const foundUser = await User.findOne({

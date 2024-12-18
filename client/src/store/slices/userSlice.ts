@@ -1,39 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserState } from "@/types/user";
+import { UserOrOrganization } from "../../types/user.ts";
 
-// Initial state with a specific type
+// state
+interface UserState {
+  userData: UserOrOrganization | null;
+  isAuthenticated: boolean;
+}
+
+// state start
 const initialState: UserState = {
-    userId: "",
-    username: "",
-    userType: "",
+  userData: null,
+  isAuthenticated: false,
 };
 
+// create slice
 const userSlice = createSlice({
-    name: "user",
-    initialState,
-    reducers: {
-        // Set user details
-        setUser: (
-            state,
-            action: PayloadAction<{
-                userId: string;
-                username: string;
-                userType: "volunteer" | "organization";
-            }>
-        ) => {
-            state.userId = action.payload.userId;
-            state.username = action.payload.username;
-            state.userType = action.payload.userType;
-        },
-        // Clear user details
-        clearUser: (state) => {
-            state.userId = "";
-            state.username = "";
-            state.userType = "";
-        },
+  name: "user",
+  initialState,
+  reducers: {
+    // save the data
+    setUser: (state, action: PayloadAction<UserOrOrganization>) => {
+      state.userData = action.payload;
+      state.isAuthenticated = true;
     },
+
+    // clear data
+    clearUser: (state) => {
+      state.userData = null;
+      state.isAuthenticated = false;
+    },
+  },
 });
 
-// Export actions and reducer
+//reducer
 export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { User } from "@/types/user";
 const BASE_URL = "http://localhost:3000/api";
 
 // validate the token
@@ -72,7 +72,7 @@ export const removeFriend = async (targetUserId: string) => {
 };
 
 //  sign up
-export const signUp = async (userData: any) => {
+export const signUp = async (userData: User) => {
   try {
     const response = await axios.post(`${BASE_URL}/users/signup`, userData);
     return response.data;
@@ -83,11 +83,13 @@ export const signUp = async (userData: any) => {
 };
 
 //  sign in
-export const signIn = async (userData: any) => {
+export const signIn = async (userData: { email: string; password: string }) => {
   try {
     const response = await axios.post(`${BASE_URL}/users/signIn`, userData, {
       withCredentials: true,
     });
+    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.error("Failed to sign in", error);
