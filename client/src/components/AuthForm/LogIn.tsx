@@ -190,7 +190,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux"; // Redux
 import { setUser } from "../../store/slices/userSlice"; // Redux
 import { useNavigate } from "react-router-dom"; // Navigation
-import { signIn } from "../../utils/userApi"; // API for login
+import { signIn } from "../../utils/userApi.ts"; // API for login
 import {
     Avatar,
     Box,
