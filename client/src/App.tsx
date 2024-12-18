@@ -6,6 +6,7 @@ import "./App.css";
 import Login from "./components/AuthForm/LogIn.tsx";
 import SignUp from "./components/AuthForm/SignUp.tsx";
 import AmutahProfilePage from "./pages/AmutahProfilePage.tsx";
+import VolunteerHome from "./pages/VolunteerHome.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/" element={<SignUp />} />
                 <Route path="/Amutah-profile" element={<AmutahProfilePage />} />
+                <Route path="/Volunteer-home" element={<VolunteerHome />} />
             </Routes>
         </PageLayout>
     );

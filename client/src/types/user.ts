@@ -1,5 +1,5 @@
 export interface UserState {
-    userId: string;
-    username: string;
-    userType: "volunteer" | "organization" | "";
+    userId: string; // From response._id
+    username: string; // From response.username
+    userType: "volunteer" | "organization";
 }

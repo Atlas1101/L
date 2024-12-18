@@ -24,27 +24,27 @@ app.use(express.json());
 app.use(morgan("tiny"));
 // app.use(logRequest);
 app.use(
-  cors({
-    origin: "http://localhost:5175", // Your frontend's origin
-    credentials: true, // Enable credentials (cookies, etc.)
-  })
+    cors({
+        origin: "http://localhost:5173", // Your frontend's origin
+        credentials: true, // Enable credentials (cookies, etc.)
+    })
 );
 app.use(cookieParser());
 
 //connect mongo
 const uri = process.env.DB_URI;
 mongoose
-  .connect(uri)
-  .then(() => {
-    console.log("connected");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:" + `${uri}`, err.message);
-  });
+    .connect(uri)
+    .then(() => {
+        console.log("connected");
+    })
+    .catch((err) => {
+        console.error("Error connecting to MongoDB:" + `${uri}`, err.message);
+    });
 
 //check if the server work
 app.get("/api/status", (req, res) => {
-  res.send({ status: "server is running" });
+    res.send({ status: "server is running" });
 });
 
 //use organization
@@ -62,15 +62,15 @@ app.use("/api/users", usersRoutes);
 // socket server
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5175",
-    credentials: true,
-  },
+    cors: {
+        origin: "http://localhost:5173",
+        credentials: true,
+    },
 });
 //imp socket file
 setupSocket(io);
 
 //
 app.listen(PORT, () => {
-  console.log(`server is running on port ${PORT}`);
+    console.log(`server is running on port ${PORT}`);
 });

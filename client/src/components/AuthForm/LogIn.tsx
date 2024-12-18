@@ -185,12 +185,12 @@
 // };
 
 // export default Login;
-
 import { useState } from "react";
-import { useDispatch } from "react-redux"; // Redux
+import { useDispatch } from "react-redux";
 import { setUser } from "../../store/slices/userSlice"; // Redux
-import { useNavigate } from "react-router-dom"; // Navigation
-import { signIn } from "../../utils/userApi.ts"; // API for login
+import { useNavigate } from "react-router-dom";
+import { signIn } from "../../api/userAPI"; // API for login
+
 import {
     Avatar,
     Box,
@@ -211,14 +211,6 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
 
-// Define types for the API response
-interface SignInResponse {
-    message: string;
-    username?: string;
-    _id?: string;
-    error?: string;
-}
-
 // Define types for the error state
 interface Errors {
     username: boolean;
@@ -226,31 +218,25 @@ interface Errors {
 }
 
 const Login: React.FC = () => {
-    // State for form inputs
     const [usernameInput, setUsernameInput] = useState<string>("");
     const [passwordInput, setPasswordInput] = useState<string>("");
 
-    // State for error handling
     const [errors, setErrors] = useState<Errors>({
         username: false,
         password: false,
     });
 
-    // State for password visibility
     const [showPassword, setShowPassword] = useState<boolean>(false);
-
-    // State for button text and message
     const [btnText, setBtnText] = useState<string>("Sign In");
     const [msgText, setMsgText] = useState<string>("");
 
-    const dispatch = useDispatch(); // Redux dispatch
-    const navigate = useNavigate(); // Navigation
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // Toggle password visibility
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event: React.MouseEvent) => {
+    const handleMouseDownPassword = (event: React.MouseEvent) =>
         event.preventDefault();
-    };
 
     // Validate inputs
     const validateInputs = (): boolean => {
@@ -271,31 +257,32 @@ const Login: React.FC = () => {
         if (validateInputs()) {
             setBtnText("Loading...");
             try {
-                const response: SignInResponse = await signIn({
+                const response = await signIn({
                     username: usernameInput,
                     password: passwordInput,
                 });
 
-                if (response.message === "Authentication successful") {
+                if (response.success && response.data) {
                     // Dispatch user info to Redux
                     dispatch(
                         setUser({
-                            username: response.username!,
-                            id: response._id!,
+                            userId: response.data._id, // Assuming '_id' exists
+                            username: response.data.username,
+                            userType: "volunteer", // Hardcoded for now, update dynamically if needed
                         })
                     );
-                    setMsgText("Login successful!");
 
-                    // Navigate to the home page
+                    setMsgText("Login successful!");
                     setTimeout(() => navigate("/home"), 1500);
                 } else {
                     setMsgText(
-                        response.error || "Login failed. Please try again."
+                        (response.error as string) ||
+                            "Login failed. Please try again."
                     );
                 }
             } catch (error) {
                 console.error("Error during login:", error);
-                setMsgText("An error occurred. Please try again.");
+                setMsgText("An unexpected error occurred. Please try again.");
             } finally {
                 setBtnText("Sign In");
             }
