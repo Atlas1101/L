@@ -4,10 +4,14 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import UserProfile from "./pages/profile/User-profile";
 import OrganizationProfile from "./pages/profile/Organization-profile";
+import Comment from "./components/Comment";
+import ProjectPage from "./pages/Project-page";
 
 function App() {
   // return <UserProfile />;
-  return <OrganizationProfile />;
+  // return <OrganizationProfile />;
+  // return <Comment />;
+  return <ProjectPage />;
 
   const [count, setCount] = useState(0);
 
