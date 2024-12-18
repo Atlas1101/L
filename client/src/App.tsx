@@ -8,10 +8,10 @@ import Comment from "./components/Comment";
 import ProjectPage from "./pages/Project-page";
 
 function App() {
-  // return <UserProfile />;
+  return <UserProfile />;
   // return <OrganizationProfile />;
   // return <Comment />;
-  return <ProjectPage />;
+  // return <ProjectPage />;
 
   const [count, setCount] = useState(0);
 

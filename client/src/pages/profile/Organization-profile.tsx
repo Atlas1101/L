@@ -1,6 +1,5 @@
 import EventViewCard from "@/components/Event-view-card";
 import Event from "@/types/EventType";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface Organization {
   orgName: String;

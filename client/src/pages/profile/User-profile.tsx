@@ -132,7 +132,7 @@ export default function UserProfile() {
             <button>add friend</button>
           )}
         </div>
-        <div className="mb-7"></div>
+
         <span className="font-bold text-xl">
           {badgeIcon} @{user.userName}
         </span>
