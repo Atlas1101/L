@@ -5,22 +5,77 @@ const mockUser = {
             _id: "1",
             name: "Alice",
             profilePicture: "https://via.placeholder.com/50",
-            events: [{ hours: 5 }, { hours: 3 }, { hours: 7 }],
+            events: [
+                { hours: 5 },
+                { hours: 3 },
+                { hours: 7 },
+                { hours: 4 },
+                { hours: 6 },
+            ], // Total: 25
         },
         {
             _id: "2",
             name: "Bob",
             profilePicture: "https://via.placeholder.com/50",
-            events: [{ hours: 2 }, { hours: 4 }, { hours: 1 }],
+            events: [{ hours: 12 }, { hours: 8 }, { hours: 15 }, { hours: 5 }], // Total: 40
         },
         {
             _id: "3",
             name: "Charlie",
             profilePicture: "https://via.placeholder.com/50",
-            events: [{ hours: 6 }, { hours: 8 }],
+            events: [
+                { hours: 6 },
+                { hours: 8 },
+                { hours: 9 },
+                { hours: 3 },
+                { hours: 2 },
+            ], // Total: 28
+        },
+        {
+            _id: "4",
+            name: "Diana",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 20 }, { hours: 10 }, { hours: 15 }, { hours: 5 }], // Total: 50
+        },
+        {
+            _id: "5",
+            name: "Ethan",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 30 }, { hours: 25 }, { hours: 10 }], // Total: 65
+        },
+        {
+            _id: "6",
+            name: "Fiona",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 18 }, { hours: 22 }, { hours: 10 }], // Total: 50
+        },
+        {
+            _id: "7",
+            name: "George",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 40 }, { hours: 15 }, { hours: 5 }], // Total: 60
+        },
+        {
+            _id: "8",
+            name: "Hannah",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 10 }, { hours: 5 }, { hours: 3 }], // Total: 18
+        },
+        {
+            _id: "9",
+            name: "Ivy",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 45 }, { hours: 15 }, { hours: 20 }], // Total: 80
+        },
+        {
+            _id: "10",
+            name: "Jack",
+            profilePicture: "https://via.placeholder.com/50",
+            events: [{ hours: 500 }, { hours: 25 }, { hours: 10 }], // Total: 85
         },
     ],
 };
+
 import { Trophy } from "lucide-react";
 
 import React from "react";
@@ -34,8 +89,8 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer";
-import FriendsLeaderboard from "@/components/FriendComponent/LeaderBoard"; // Update path if necessary
-export function DrawerLeader({ mockUser }) {
+import FriendsLeaderboard from "@/components/FriendComponent/LeaderBoard";
+export function DrawerLeader() {
     return (
         <Drawer>
             <DrawerTrigger asChild>
