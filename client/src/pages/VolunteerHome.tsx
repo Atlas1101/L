@@ -1,6 +1,7 @@
 import React from "react";
 import EventCarousel from "@/components/EventComponents/EventCarousel";
 import EventGrid from "@/components/EventComponents/EventGrid";
+import { DrawerLeader } from "@/components/FriendComponent/DrawerLeader";
 
 function VolunteerHome() {
     return (
@@ -13,6 +14,7 @@ function VolunteerHome() {
             </header>
 
             <main className="w-full max-w-6xl p-4 mx-3">
+                <DrawerLeader />
                 <section className="mb-10">
                     {/* <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                         Upcoming Events

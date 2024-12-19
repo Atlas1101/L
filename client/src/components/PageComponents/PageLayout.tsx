@@ -20,7 +20,7 @@ const PageLayout = ({ children }) => {
                 flexDirection: "column",
                 width: "100%",
                 height: "100vh",
-                border: "5px solid red",
+                // border: "5px solid red",
                 bgcolor: "green",
             }}
         >
@@ -44,10 +44,18 @@ const PageLayout = ({ children }) => {
                     boxSizing: "border-box", // Prevent padding overflow
                     textAlign: "center", // Optional: Center text inside content
                     bgcolor: "hsl(198, 76.70%, 62.90%)",
-                    border: "5px solid green",
+                    // border: "5px solid green",
                 }}
             >
-                {children}
+                <Box
+                    sx={{
+                        width: "100%",
+                        height: "100%",
+                        boxSizing: "border-box",
+                    }}
+                >
+                    {children}
+                </Box>
             </Box>
         </Box>
     );
