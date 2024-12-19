@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import {
-    searchEvents,
-    searchVolunteers,
-    searchOrganizations,
-} from "@/api/searchAPI"; // Import the relevant API calls
-import EventViewCard from "./Event-view-card";
-import VolunteerCard from "./Volunteer-card";
-import OrganizationCard from "./Organization-card";
+import { getAllEvents } from "@/api/eventAPI"; // Import the relevant API calls
+import { getAllUsers } from "@/api/eventAPI"; // Import the relevant API calls
+import { getAllOrganizations } from "@/api/eventAPI"; // Import the relevant API calls
+import EventViewCard from "../components/EventComponents/Event-view-card";
 
 export default function SearchPage() {
     const [searchType, setSearchType] = useState("events"); // Default to events

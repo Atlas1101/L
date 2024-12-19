@@ -21,7 +21,7 @@ import Logout from "./Logout.tsx";
 
 import logo from "../../assets/logo.jpg";
 
-const pages = ["Home", "Chats", "New Event", "About"];
+const pages = ["HomeO", "Chats", "New Event", "About"];
 const settings = ["Profile", "Logout", "DeleteUser"];
 
 function OrganisationNavBar() {

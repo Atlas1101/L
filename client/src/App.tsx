@@ -11,6 +11,8 @@ import OrganizationProfile from "./pages/Organization-profile.tsx";
 import UserProfile from "./pages/User-profile.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
 import EventPage from "./pages/Event-page.tsx";
+import CreateNewPost from "./pages/CreateNewPost.tsx";
+import SearchPage from "./pages/Search-page.tsx";
 
 function App() {
     return (
@@ -19,7 +21,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/" element={<SignUp />} />
-                <Route path="/Volunteer-home" element={<VolunteerHome />} />
+                <Route path="/homev" element={<VolunteerHome />} />
 
                 <Route path="/User-profile" element={<UserProfile />} />
 
@@ -27,7 +29,9 @@ function App() {
                     path="/Organization-profile"
                     element={<OrganizationProfile />}
                 />
-                <Route path="/Event-page/:id" element={<EventPage />} />
+                <Route path="/event-page/:id" element={<EventPage />} />
+                <Route path="/new-event" element={<CreateNewPost />} />
+                <Route path="/search" element={<SearchPage />} />
             </Routes>
         </PageLayout>
     );

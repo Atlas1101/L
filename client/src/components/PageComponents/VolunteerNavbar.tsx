@@ -21,7 +21,7 @@ import Logout from "./Logout.tsx";
 
 import logo from "../../assets/logo.jpg";
 
-const pages = ["Home", "Chats", "Search", "About"];
+const pages = ["HomeV", "Chats", "Search", "About"];
 const settings = ["Profile", "Logout", "DeleteUser"];
 
 function VolunteerNavBar() {
