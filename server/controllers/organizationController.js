@@ -51,8 +51,9 @@ export const getOrganizationByName = async (req, res) => {
 
 // Create a new organization
 export const createNewOrganization = async (req, res) => {
+  console.log(req.body);
   try {
-    const { orgName, email, password, phone, city, about } = req.body;
+    const { orgName, email, password, phone, city } = req.body;
 
     if (!orgName || !password || !email || !city || !phone) {
       return res.status(400).send({
@@ -76,7 +77,6 @@ export const createNewOrganization = async (req, res) => {
       password: hashedPassword,
       phone,
       city,
-      about,
     });
 
     await newOrg.save();
@@ -92,16 +92,17 @@ export const createNewOrganization = async (req, res) => {
 
 // Sign in organization
 export const signInOrganization = async (req, res) => {
-  const { orgName, email, password } = req.body;
-  if (!password || (!email && !orgName)) {
-    return res
-      .status(400)
-      .send({ error: "email/orgName and password are required" });
+  const { email, password } = req.body;
+  console.log(email, password);
+
+  if (!password || !email) {
+    return res.status(400).send({ error: "Email and password are required" });
   }
+
   try {
-    const foundOrg = await Organization.findOne({
-      $or: [{ orgName }, { email }],
-    });
+    const foundOrg = await Organization.findOne({ email: req.body.email });
+    console.log(foundOrg);
+
     if (!foundOrg) {
       return res.status(404).send({ error: "Email or orgName not found." });
     }
@@ -122,6 +123,7 @@ export const signInOrganization = async (req, res) => {
       sameSite: "strict",
       maxAge: 3600000,
     });
+
     res.status(200).send({
       message: "Authentication successful",
       isAuth: true,

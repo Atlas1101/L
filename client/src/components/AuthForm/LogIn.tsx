@@ -1,441 +1,239 @@
-// import { useState } from "react";
-// import { useDispatch } from "react-redux";  // Redux
-// import { setUser } from "../../store/slices/userSlice"; //Redux
-// import { useNavigate } from "react-router-dom";
-
-// import { signIn } from "../../utils/userApi";
-
-// import {
-//   Avatar,
-//   Box,
-//   Container,
-//   TextField,
-//   Typography,
-//   Button,
-//   FormControl,
-//   IconButton,
-//   FilledInput,
-//   InputLabel,
-//   InputAdornment,
-// } from "@mui/material";
-
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-// import Visibility from "@mui/icons-material/Visibility";
-// import VisibilityOff from "@mui/icons-material/VisibilityOff";
-// import LoginIcon from "@mui/icons-material/Login";
-// import { Link } from "react-router-dom";
-
-// const Login = () => {
-//   const [usernameInput, setUsernameInput] = useState("");
-//   const [passwordInput, setPasswordInput] = useState("");
-//   const [usernameError, setUsernameError] = useState(false);
-//   const [passwordError, setPasswordError] = useState(false);
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [btnText, setBtnText] = useState("Sign In");
-//   const [msgText, setMsgText] = useState("");
-//   const [isSubmitted, setIsSubmitted] = useState(false);
-
-//   const dispatch = useDispatch();  //  Redux
-//   const navigate = useNavigate();  // Initialize navigation
-
-//   const handleClickShowPassword = () => setShowPassword((show) => !show);
-//   const handleMouseDownPassword = (event) => {
-//     event.preventDefault();
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setUsernameError(false);
-//     setPasswordError(false);
-
-//     let hasError = false;
-
-//     if (!usernameInput.trim()) {
-//       setUsernameError(true);
-//       hasError = true;
-//     }
-//     if (!passwordInput.trim()) {
-//       setPasswordError(true);
-//       hasError = true;
-//     }
-
-//     if (hasError) return;
-
-//     setIsSubmitted(true);
-//     setBtnText("Loading...");
-//     setMsgText("");
-
-//     try {
-//       const response = await signIn({ username: usernameInput, password: passwordInput });
-
-//       if (response.message === "Authentication successful") {
-//         dispatch(setUser(response.username,response._id));  // Save username to Redux store
-
-// console.log(response);
-
-//         setTimeout(() => {//nevigate to home
-//           navigate("/home");
-//         }, 1500);
-//         setUsernameInput("");
-//         setPasswordInput("");
-//       } else {
-//         setMsgText(response.error.error);
-//       }
-//     } catch (error) {
-//       setMsgText("An error occurred during login");
-//     } finally {
-//       setBtnText("Sign In");
-//       setIsSubmitted(false);
-//     }
-//   };
-
-//   return (
-//     <Container maxWidth="xs">
-//       <Container sx={{ my: 2, padding: 2 }}>
-//         <h1>Instagram</h1>
-//         <Avatar
-//           sx={{
-//             mx: "auto",
-//             bgcolor: "secondary.main",
-//             textAlign: "center",
-//             mb: 1,
-//           }}
-//         >
-//           <LockOutlinedIcon />
-//         </Avatar>
-
-//         <Typography component="h1" variant="h5" sx={{ textAlign: "center", fontWeight: "bold" }}>
-//           Sign In
-//         </Typography>
-
-//         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-//           <TextField
-//             label="Enter username"
-//             fullWidth
-//             variant="filled"
-//             value={usernameInput}
-//             onChange={(e) => setUsernameInput(e.target.value)}
-//             autoFocus
-//             sx={{
-//               input: { color: "white" },
-//               label: { color: "hsl(0, 0%, 66%)" },
-//               mb: 2,
-//               bgcolor: "hsl(0, 0%, 7%)",
-//               border: 1,
-//             }}
-//             error={usernameError}
-//             helperText={usernameError ? "Username is required" : ""}
-//           />
-//           <FormControl
-//             fullWidth
-//             sx={{
-//               input: { color: "white" },
-//               label: { color: "hsl(0, 0%, 66%)" },
-//               mb: 2,
-//               bgcolor: "hsl(0, 0%, 7%)",
-//               border: 1,
-//             }}
-//             variant="filled"
-//           >
-//             <InputLabel error={passwordError} htmlFor="filled-adornment-password">
-//               Password
-//             </InputLabel>
-//             <FilledInput
-//               id="filled-adornment-password"
-//               type={showPassword ? "text" : "password"}
-//               value={passwordInput}
-//               error={passwordError}
-//               onChange={(e) => setPasswordInput(e.target.value)}
-//               endAdornment={
-//                 <InputAdornment position="end">
-//                   <IconButton
-//                     aria-label={showPassword ? "hide the password" : "display the password"}
-//                     onClick={handleClickShowPassword}
-//                     onMouseDown={handleMouseDownPassword}
-//                     edge="end"
-//                   >
-//                     {showPassword ? <VisibilityOff sx={{ color: "white" }} /> : <Visibility sx={{ color: "white" }} />}
-//                   </IconButton>
-//                 </InputAdornment>
-//               }
-//               label="Password"
-//             />
-//             {passwordError && <Typography variant="body2" color="error" sx={{ mt: 1 }}>Password is required</Typography>}
-//           </FormControl>
-
-//           <Button variant="contained" startIcon={<LoginIcon />} type="submit" fullWidth sx={{ mt: 1 }}>
-//             {btnText}
-//           </Button>
-
-//           {msgText && <Typography variant="body2" color="error" sx={{ mt: 1 }}>{msgText}</Typography>}
-
-//           {/* Link to Sign Up page */}
-//           <Box sx={{ textAlign: "center", mt: 2 }}>
-//             <Typography variant="body2">
-//               Don't have an account?{" "}
-//               <Link to="/signup" style={{ color: "blue" }}>
-//                 Sign Up
-//               </Link>
-//             </Typography>
-//           </Box>
-//         </Box>
-//       </Container>
-//     </Container>
-//   );
-// };
-
-// export default Login;
-
 import { useState } from "react";
-import { useDispatch } from "react-redux"; // Redux
-import { setUser } from "../../store/slices/userSlice"; // Redux
-import { useNavigate } from "react-router-dom"; // Navigation
-import { signIn } from "../../utils/userApi"; // API for login
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/store/slices/userSlice"; // Redux
+import { useNavigate } from "react-router-dom";
+import { signIn } from "@/api/userAPI";
+import { signInOrganization } from "@/api/organizationAPI";
 import {
-    Avatar,
-    Box,
-    Container,
-    TextField,
-    Typography,
-    Button,
-    FormControl,
-    IconButton,
-    FilledInput,
-    InputLabel,
-    InputAdornment,
+  Avatar,
+  Box,
+  Container,
+  TextField,
+  Typography,
+  Button,
+  FormControl,
+  IconButton,
+  FilledInput,
+  InputLabel,
+  InputAdornment,
 } from "@mui/material";
-
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
-
-// Define types for the API response
-interface SignInResponse {
-    message: string;
-    username?: string;
-    _id?: string;
-    error?: string;
-}
 
 // Define types for the error state
 interface Errors {
-    username: boolean;
-    password: boolean;
+  email: boolean;
+  password: boolean;
+  orgName: boolean;
 }
 
 const Login: React.FC = () => {
-    // State for form inputs
-    const [usernameInput, setUsernameInput] = useState<string>("");
-    const [passwordInput, setPasswordInput] = useState<string>("");
+  const user = useSelector((state) => state.user);
 
-    // State for error handling
-    const [errors, setErrors] = useState<Errors>({
-        username: false,
-        password: false,
-    });
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [orgNameInput, setOrgNameInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const [isOrg, setIsOrg] = useState<boolean>(false); // Toggle between User and Organization
+  const [errors, setErrors] = useState<Errors>({
+    email: false,
+    password: false,
+    orgName: false,
+  });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [btnText, setBtnText] = useState<string>("Sign In");
+  const [msgText, setMsgText] = useState<string>("");
 
-    // State for password visibility
-    const [showPassword, setShowPassword] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    // State for button text and message
-    const [btnText, setBtnText] = useState<string>("Sign In");
-    const [msgText, setMsgText] = useState<string>("");
+  // Toggle password visibility
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event: React.MouseEvent) =>
+    event.preventDefault();
 
-    const dispatch = useDispatch(); // Redux dispatch
-    const navigate = useNavigate(); // Navigation
-
-    // Toggle password visibility
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const handleMouseDownPassword = (event: React.MouseEvent) => {
-        event.preventDefault();
+  // Validate inputs
+  const validateInputs = (): boolean => {
+    const newErrors: Errors = {
+      email: !emailInput.trim() && !orgNameInput.trim(),
+      password: !passwordInput.trim(),
+      orgName: isOrg && !orgNameInput.trim(),
     };
+    setErrors(newErrors);
+    return !Object.values(newErrors).some(Boolean);
+  };
 
-    // Validate inputs
-    const validateInputs = (): boolean => {
-        const newErrors: Errors = {
-            username: !usernameInput.trim(),
-            password: !passwordInput.trim(),
-        };
-        setErrors(newErrors);
-        return !Object.values(newErrors).some(Boolean);
-    };
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setIsOrg(event.target.value === "Organization");
+  };
 
-    // Handle form submission
-    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-        e.preventDefault();
-        setMsgText("");
-        setErrors({ username: false, password: false });
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+    e.preventDefault();
+    setMsgText("");
+    setErrors({ email: false, password: false, orgName: false });
 
-        if (validateInputs()) {
-            setBtnText("Loading...");
-            try {
-                const response: SignInResponse = await signIn({
-                    username: usernameInput,
-                    password: passwordInput,
-                });
+    if (validateInputs()) {
+      setBtnText("Loading...");
+      try {
+        let response;
 
-                if (response.message === "Authentication successful") {
-                    // Dispatch user info to Redux
-                    dispatch(
-                        setUser({
-                            username: response.username!,
-                            id: response._id!,
-                        })
-                    );
-                    setMsgText("Login successful!");
-
-                    // Navigate to the home page
-                    setTimeout(() => navigate("/home"), 1500);
-                } else {
-                    setMsgText(
-                        response.error || "Login failed. Please try again."
-                    );
-                }
-            } catch (error) {
-                console.error("Error during login:", error);
-                setMsgText("An error occurred. Please try again.");
-            } finally {
-                setBtnText("Sign In");
-            }
+        if (isOrg) {
+          response = await signInOrganization({
+            email: orgNameInput, // You can change this if needed, depending on your data
+            password: passwordInput,
+          });
         } else {
-            setMsgText("Please fill out all required fields.");
+          response = await signIn({
+            email: emailInput, // Changed to emailInput
+            password: passwordInput,
+          });
         }
-    };
 
-    return (
-        <Container maxWidth="xs">
-            <Container sx={{ my: 2, padding: 2 }}>
-                <h1>Instagram</h1>
-                <Avatar
-                    sx={{
-                        mx: "auto",
-                        bgcolor: "secondary.main",
-                        textAlign: "center",
-                        mb: 1,
-                    }}
-                >
-                    <LockOutlinedIcon />
-                </Avatar>
+        if (response.message === "Authentication successful") {
+          // Dispatch user or organization info to Redux
 
-                <Typography
-                    component="h1"
-                    variant="h5"
-                    sx={{ textAlign: "center", fontWeight: "bold" }}
-                >
-                    Sign In
-                </Typography>
+          dispatch(
+            setUser({
+              userId: response._id,
+              username: response.username || response.orgName,
+              userType: isOrg ? "organization" : "user",
+            })
+          );
 
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                    <TextField
-                        label="Enter username"
-                        fullWidth
-                        variant="filled"
-                        value={usernameInput}
-                        onChange={(e) => setUsernameInput(e.target.value)}
-                        autoFocus
-                        sx={{
-                            input: { color: "white" },
-                            label: { color: "hsl(0, 0%, 66%)" },
-                            mb: 2,
-                            bgcolor: "hsl(0, 0%, 7%)",
-                            border: 1,
-                        }}
-                        error={errors.username}
-                        helperText={
-                            errors.username ? "Username is required" : ""
-                        }
-                    />
-                    <FormControl
-                        fullWidth
-                        sx={{
-                            input: { color: "white" },
-                            label: { color: "hsl(0, 0%, 66%)" },
-                            mb: 2,
-                            bgcolor: "hsl(0, 0%, 7%)",
-                            border: 1,
-                        }}
-                        variant="filled"
-                    >
-                        <InputLabel
-                            error={errors.password}
-                            htmlFor="filled-adornment-password"
-                        >
-                            Password
-                        </InputLabel>
-                        <FilledInput
-                            id="filled-adornment-password"
-                            type={showPassword ? "text" : "password"}
-                            value={passwordInput}
-                            error={errors.password}
-                            onChange={(e) => setPasswordInput(e.target.value)}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label={
-                                            showPassword
-                                                ? "hide the password"
-                                                : "display the password"
-                                        }
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword ? (
-                                            <VisibilityOff
-                                                sx={{ color: "white" }}
-                                            />
-                                        ) : (
-                                            <Visibility
-                                                sx={{ color: "white" }}
-                                            />
-                                        )}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                        />
-                    </FormControl>
+          setMsgText("Login successful!");
+          setTimeout(() => navigate("/Volunteer-home"), 1500);
+        } else {
+          setMsgText(
+            (response.error as string) || "Login failed. Please try again."
+          );
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+        setMsgText("An unexpected error occurred. Please try again.");
+      } finally {
+        setBtnText("Sign In");
+      }
+    } else {
+      setMsgText("Please fill out all required fields.");
+    }
+  };
 
-                    <Button
-                        variant="contained"
-                        startIcon={<LoginIcon />}
-                        type="submit"
-                        fullWidth
-                        disabled={btnText === "Loading..."}
-                        sx={{ mt: 1 }}
-                    >
-                        {btnText}
-                    </Button>
+  return (
+    <Container maxWidth="xs">
+      <Container sx={{ my: 2, padding: 2 }}>
+        <h1>Instagram</h1>
+        <Avatar
+          sx={{
+            mx: "auto",
+            bgcolor: "secondary.main",
+            textAlign: "center",
+            mb: 1,
+          }}
+        >
+          <LockOutlinedIcon />
+        </Avatar>
 
-                    {msgText && (
-                        <Typography
-                            variant="body2"
-                            color={
-                                msgText.includes("successful")
-                                    ? "primary"
-                                    : "error"
-                            }
-                            sx={{ mt: 1 }}
-                        >
-                            {msgText}
-                        </Typography>
-                    )}
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ textAlign: "center", fontWeight: "bold" }}
+        >
+          Sign In
+        </Typography>
 
-                    {/* Link to Sign Up page */}
-                    <Box sx={{ textAlign: "center", mt: 2 }}>
-                        <Typography variant="body2">
-                            Don't have an account?{" "}
-                            <Link to="/signup" style={{ color: "blue" }}>
-                                Sign Up
-                            </Link>
-                        </Typography>
-                    </Box>
-                </Box>
-            </Container>
-        </Container>
-    );
+        <div>
+          <select onChange={handleChange}>
+            <option value="User">User</option>
+            <option value="Organization">Organization</option>
+          </select>
+          <p>Selected: {isOrg ? "Organization" : "User"}</p>
+        </div>
+
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          {isOrg ? (
+            <TextField
+              label="Enter Organization Name or Email"
+              fullWidth
+              variant="filled"
+              value={orgNameInput}
+              onChange={(e) => setOrgNameInput(e.target.value)}
+              autoFocus
+              sx={{
+                input: { color: "white" },
+                label: { color: "hsl(0, 0%, 66%)" },
+                mb: 2,
+                bgcolor: "hsl(0, 0%, 7%)",
+                border: 1,
+              }}
+              error={errors.orgName}
+              helperText={errors.orgName ? "Organization Name is required" : ""}
+            />
+          ) : (
+            <TextField
+              label="Enter email"
+              fullWidth
+              variant="filled"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              autoFocus
+              sx={{
+                input: { color: "white" },
+                label: { color: "hsl(0, 0%, 66%)" },
+                mb: 2,
+                bgcolor: "hsl(0, 0%, 7%)",
+                border: 1,
+              }}
+              error={errors.email}
+              helperText={errors.email ? "Email is required" : ""}
+            />
+          )}
+
+          <FormControl fullWidth variant="filled" sx={{ mb: 2 }}>
+            <InputLabel>Password</InputLabel>
+            <FilledInput
+              type={showPassword ? "text" : "password"}
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            {btnText}
+          </Button>
+
+          <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+            Don't have an account?{" "}
+            <Link
+              to="/signup"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              Sign Up here
+            </Link>
+          </Typography>
+        </Box>
+        <Button onClick={() => console.log(user)}>click me</Button>
+      </Container>
+    </Container>
+  );
 };
 
 export default Login;
