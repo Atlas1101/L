@@ -33,6 +33,26 @@ const handleAxiosError = (error: unknown): string | object => {
   return "An unexpected error occurred";
 };
 
+// Get all users
+export const getAllUsers = async () => {
+  try {
+    const response = await axios.get("/api/users");
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+  }
+};
+
+// Get user friends by username
+export const getUserFriends = async (username: string) => {
+  try {
+    const response = await axios.get(`/api/users/${username}/friends`);
+    console.log(response.data);
+  } catch (error) {
+    console.error(`Error fetching friends for ${username}:`, error);
+  }
+};
+
 // 1. Validate Token
 export const validateToken = async (): Promise<ApiResponse<User>> => {
   try {

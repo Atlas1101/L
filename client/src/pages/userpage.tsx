@@ -1,90 +1,71 @@
-import EventViewCard from "@/components/EventComponents/Event-view-card";
-import User from "@/types/user";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getUserByUsername, getUserFriends } from "@/api/userAPI"; // קריאות API
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { log } from "console";
+import { useNavigate } from "react-router-dom";
+import EventViewCard from "@/components/EventComponents/Event-view-card"; // וידוי שה-import נכון
 
-const user: User = {
-  userName: "Liraz",
-  img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJU0xNuXogCM5T_euKq_q17d0Ispz5s-b86w&s",
-  bio: "please help me im under the water",
-  email: "liraz@gmail.com",
-  phone: "0501234567",
-  password: "1234567890",
-  friends: ["Ahron", "Ori", "Amit", "Itay", "Porat"],
-  events: [
-    {
-      id: "0987654321",
-      evName: "fund raising",
-      images: [
-        "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg",
-      ],
-      details: "We want your money",
-      volunteers: [],
-      capacity: 100,
-      comments: [{ rating: 3 }, { rating: 5 }],
-      address: "Tel-Aviv",
-      location: "",
-      organization: "Microsoft",
-      status: "open",
-      tags: ["money", "beingLame", "takingMoney"],
-      startTime: new Date(),
-      endTime: new Date(),
-      hours: 99,
-      users: [],
-    },
-    {
-      id: "09876543211",
-      evName: "fund raising",
-      images: [
-        "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg",
-      ],
-      details: "We want your money",
-      volunteers: [],
-      capacity: 20,
-      comments: [{ rating: 3 }, { rating: 5 }],
-      address: "Tel-Aviv",
-      location: "",
-      organization: "Microsoft",
-      status: "open",
-      tags: ["money", "beingLame", "takingMoney"],
-      startTime: new Date(),
-      endTime: new Date(),
-      hours: 1,
-      users: [],
-    },
-  ],
-  city: "Here",
-  age: 18,
-};
-
-export default function UserProfile() {
+const UserProfile = () => {
+  const { username } = useParams();
   const navigate = useNavigate();
 
-  const hours = getHours();
+  const [user, setUser] = useState<any>(null);
+  const [friends, setFriends] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // קריאה ל-API לקבלת פרטי המשתמש
+      const userResponse = await getUserByUsername(username);
+      if (userResponse.success) {
+        setUser(userResponse.data); // עדכון הסטייט עם פרטי המשתמש
+        console.log("User data:", userResponse.data); // לוג למידע של המשתמש
+      } else {
+        console.error("Error fetching user data:", userResponse.error);
+      }
+
+      // קריאה ל-API לקבלת רשימת החברים
+      const friendsResponse = await getUserFriends(username);
+      if (friendsResponse.success) {
+        setFriends(friendsResponse.data); // עדכון הסטייט עם רשימת החברים
+        console.log("User friends:", friendsResponse.data); // לוג לרשימת החברים
+      } else {
+        console.error("Error fetching friends:", friendsResponse.error);
+      }
+    };
+
+    fetchData();
+  }, [username]); // קריאה מתבצעת בכל פעם שה-username משתנה
+
+  // אם לא קיבלתם מידע מה-API, הוצג ערכים ברירת מחדל
+  const defaultUser = {
+    username: "Unknown",
+    bio: "No bio available",
+    email: "No email available",
+    phone: "No phone available",
+    friends: [],
+    events: [],
+    city: "Unknown",
+    age: 0,
+    img: "https://www.w3schools.com/howto/img_avatar.png", // תמונה ברירת מחדל
+  };
+
+  const currentUser = user || defaultUser;
+
+  const hours = currentUser.events.reduce((acc, ev) => acc + ev.hours, 0);
   let badgeTitle = "";
   let badgeIcon = "";
 
-  function getHours() {
-    let hours = 0;
-    user.events.forEach((ev) => {
-      hours += ev.hours;
-    });
-    return hours;
-  }
-
+  // חישוב כמות שעות
   if (hours < 10) {
     badgeTitle = "Baby";
     badgeIcon = "🐣";
@@ -117,7 +98,7 @@ export default function UserProfile() {
     badgeIcon = "🌟";
   }
 
-  const someCondition = true; // is the user viewing their own profile or someone else's
+  const someCondition = true; // האם זה פרופיל של המשתמש הנוכחי או לא
   const areFriends = false;
 
   return (
@@ -125,7 +106,10 @@ export default function UserProfile() {
       {/* Avatar and Action Button */}
       <div className="flex flex-col items-center w-full max-w-md p-4 bg-white rounded-lg shadow-md">
         <Avatar className="w-32 h-32 shadow-lg">
-          <AvatarImage src={user.img} alt={`${user.userName}'s photo`} />
+          <AvatarImage
+            src={currentUser.img}
+            alt={`${currentUser.username}'s photo`}
+          />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         {someCondition ? (
@@ -146,14 +130,14 @@ export default function UserProfile() {
       {/* User Info */}
       <div className="flex flex-col items-center w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <span className="flex items-center gap-2 text-2xl font-bold">
-          {badgeIcon} @{user.userName}
+          {badgeIcon} @{currentUser.username}
         </span>
-        <span className="text-lg text-gray-600">📍 {user.city}</span>
+        <span className="text-lg text-gray-600">📍 {currentUser.city}</span>
         <span className="text-lg text-gray-600">
-          📞 {user.phone} 📬 {user.email}
+          📞 {currentUser.phone} 📬 {currentUser.email}
         </span>
         <span className="mt-2 italic text-center text-gray-500">
-          {user.bio}
+          {currentUser.bio}
         </span>
       </div>
 
@@ -171,12 +155,12 @@ export default function UserProfile() {
         </div>
         <Drawer>
           <DrawerTrigger className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200">
-            Friends ({user.friends.length})
+            Friends ({currentUser.friends.length})
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
               <DrawerTitle className="text-black">
-                {user.userName}'s Friends
+                {currentUser.username}'s Friends
               </DrawerTitle>
               <DrawerDescription className="text-gray-600">
                 Click on a name to view their profile.
@@ -184,7 +168,7 @@ export default function UserProfile() {
             </DrawerHeader>
             <DrawerFooter>
               <ul className="space-y-2">
-                {user.friends.map((friend) => (
+                {currentUser.friends.map((friend: string) => (
                   <li
                     key={friend}
                     className="text-blue-600 cursor-pointer hover:underline"
@@ -202,7 +186,7 @@ export default function UserProfile() {
 
       {/* Events */}
       <div className="flex flex-wrap justify-center gap-6">
-        {user.events.map((currentEv) => (
+        {currentUser.events.map((currentEv: any) => (
           <EventViewCard
             ev={currentEv}
             key={currentEv.id}
@@ -212,4 +196,6 @@ export default function UserProfile() {
       </div>
     </div>
   );
-}
+};
+
+export default UserProfile;

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "@/store/slices/userSlice";
-import { validateToken } from "@/api/userAPI";
-import { validateOrganizationToken } from "@/api/organizationAPI";
+import { getUserFromToken } from "@/utils/UserByToken"; // ייבוא הפונקציה החדשה
 import EventCarousel from "@/components/EventComponents/EventCarousel";
 import EventGrid from "@/components/EventComponents/EventGrid";
 import { DrawerLeader } from "@/components/FriendComponent/DrawerLeader";
@@ -12,33 +11,9 @@ function VolunteerHome() {
   const storedUser = useSelector((state: RootState) => state.user.userData);
   const [user, setUserState] = useState(storedUser); // Initialize state with the stored user data
 
-  const getCookie = (name: string) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      const jwt = getCookie("jwt");
-      console.log("JWT:", jwt); // Output the jwt value
-
-      const myuser = await validateToken();
-
-      // Check if username or orgName exists in the response
-      if (myuser?.data?.username?.username !== undefined) {
-        console.log("here");
-        const userId = myuser.data.username._id;
-        const username = myuser.data.username.username;
-        const userType = "user";
-        const myNewUser = { userId, username, userType };
-        console.log("new user", myNewUser);
-
-        dispatch(setUser(myNewUser));
-      } else if (myuser?.data?.orgName) {
-        dispatch(setUser({ ...myuser, userType: "organization" }));
-      }
-
+      const myuser = await getUserFromToken(dispatch); // השתמשנו בפונקציה מ-`userUtils.ts`
       setUserState(myuser); // Update local state with the user data
     };
 
