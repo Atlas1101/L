@@ -21,7 +21,7 @@ import Logout from "./Logout.tsx";
 
 import logo from "../../assets/logo.jpg";
 
-const pages = ["Home", "Chats", "Search", "About"];
+const pages = ["Home", "Chats", "Search", "Profile", "New Event"];
 const settings = ["Profile", "Logout", "DeleteUser"];
 
 function VolunteerNavBar() {
@@ -119,9 +119,19 @@ function VolunteerNavBar() {
                                     key={page}
                                     onClick={handleCloseNavMenu}
                                     component={Link}
-                                    to={`/${page
-                                        .toLowerCase()
-                                        .replace(" ", "-")}`}
+                                    to={
+                                        page === "Home"
+                                            ? "/Volunteer-home"
+                                            : page === "Chats"
+                                            ? "/Volunteer-home"
+                                            : page === "Search"
+                                            ? "/Search"
+                                            : page === "About"
+                                            ? "/User-profile"
+                                            : page === "New Event"
+                                            ? "/Create"
+                                            : "/"
+                                    }
                                 >
                                     <Typography sx={{ textAlign: "center" }}>
                                         {page}
@@ -174,7 +184,19 @@ function VolunteerNavBar() {
                                 key={page}
                                 onClick={handleCloseNavMenu}
                                 component={Link}
-                                to={`/${page.toLowerCase().replace(" ", "-")}`}
+                                to={
+                                    page === "Home"
+                                        ? "/Volunteer-home"
+                                        : page === "Chats"
+                                        ? "/Volunteer-home"
+                                        : page === "Search"
+                                        ? "/Search"
+                                        : page === "Profile"
+                                        ? "/User-profile"
+                                        : page === "New Event"
+                                        ? "/Create"
+                                        : "/"
+                                }
                                 sx={{
                                     my: 2,
                                     color: "black",

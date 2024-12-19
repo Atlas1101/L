@@ -10,6 +10,8 @@ import OrganizationProfile from "./pages/Organization-profile.tsx";
 import UserProfile from "./pages/User-profile.tsx";
 import PageLayout from "./components/PageComponents/PageLayout.tsx";
 import EventPage from "./pages/Event-page.tsx";
+import CreateNewPost from "./pages/CreateNewPost.tsx";
+import SearchPage from "./pages/Search-page.tsx";
 
 function App() {
   return (

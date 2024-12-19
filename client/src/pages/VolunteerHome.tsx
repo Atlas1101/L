@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EventCarousel from "@/components/EventComponents/EventCarousel";
 import EventGrid from "@/components/EventComponents/EventGrid";
-import { useSelector, useDispatch } from "react-redux";
-import { validateToken } from "@/api/userAPI";
-import { setUser } from "@/store/slices/userSlice";
+import { DrawerLeader } from "@/components/FriendComponent/DrawerLeader";
 
 function VolunteerHome() {
   const dispatch = useDispatch();
@@ -68,18 +66,28 @@ function VolunteerHome() {
         </p>
       </header>
 
-      <main className="w-full max-w-6xl p-4 mx-3">
-        <section className="mb-10">
-          <EventCarousel type="date" />
-        </section>
+            <main className="w-full max-w-6xl p-4 mx-3">
+                <DrawerLeader />
+                <section className="mb-10">
+                    {/* <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                        Upcoming Events
+                    </h2> */}
+                    <EventCarousel type="date" />
+                </section>
 
-        <section className="mb-10">
-          <EventCarousel type="location" />
-        </section>
+                {/* <section className="mb-10">
+                    <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                        Events Near You
+                    </h2>
+                    <EventCarousel type="location" />
+                </section>
 
-        <section className="px-4 mb-10">
-          <EventCarousel type="friends" />
-        </section>
+                <section className="px-4 mb-10">
+                    <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                        Events Your Friends Are Attending
+                    </h2>
+                    <EventCarousel type="" />
+                </section> */}
 
         <section className="mb-10">
           <EventGrid />

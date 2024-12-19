@@ -78,23 +78,29 @@ export default function EventGrid() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="my-8">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">All Events</h2>
-                <select
-                    value={sortBy}
-                    onChange={(e) => handleSort(e.target.value)}
-                    className="border border-gray-300 rounded-md px-4 py-2"
-                >
-                    <option value="date">Sort by Date</option>
-                    <option value="urgency">Sort by Urgency</option>
-                </select>
-            </div>
+        <div className="justify-center">
+            <div className="my-8 w-full px-4">
+                {/* Header with Sorting */}
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-bold">All Events</h2>
+                    <select
+                        value={sortBy}
+                        onChange={(e) => handleSort(e.target.value)}
+                        className="border border-gray-300 rounded-md px-4 py-2 bg-white text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition duration-200 ease-in-out"
+                    >
+                        <option value="date">Sort by Date</option>
+                        <option value="urgency">Sort by Urgency</option>
+                    </select>
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {paginatedEvents.map((event) => (
-                    <EventViewCard key={event.id} ev={event} />
-                ))}
+                {/* Event Grid */}
+                <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {paginatedEvents.map((event) => (
+                        <div key={event.id} className="relative">
+                            <EventViewCard ev={event} />
+                        </div>
+                    ))}
+                </div>
             </div>
 
             <div className="mt-8">

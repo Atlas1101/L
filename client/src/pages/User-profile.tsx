@@ -82,111 +82,137 @@ export default function UserProfile() {
     return hours;
   }
 
-  if (hours < 10) {
-    badgeTitle = "baby";
-    badgeIcon = "🐣";
-  } else if (hours < 20) {
-    badgeTitle = "first steps";
-    badgeIcon = "👣";
-  } else if (hours < 30) {
-    badgeTitle = "novice";
-    badgeIcon = "🫂";
-  } else if (hours < 40) {
-    badgeTitle = "beginner";
-    badgeIcon = "🦾";
-  } else if (hours < 50) {
-    badgeTitle = "intermediate";
-    badgeIcon = "🥰";
-  } else if (hours < 60) {
-    badgeTitle = "advanced";
-    badgeIcon = "🚀";
-  } else if (hours < 70) {
-    badgeTitle = "master";
-    badgeIcon = "👷🏻‍♂️";
-  } else if (hours < 80) {
-    badgeTitle = "hero";
-    badgeIcon = "🦸🏻‍♂️";
-  } else if (hours < 90) {
-    badgeTitle = "king";
-    badgeIcon = "👑";
-  } else {
-    badgeTitle = "legendary";
-    badgeIcon = "🌟";
-  }
+    if (hours < 10) {
+        badgeTitle = "Baby";
+        badgeIcon = "🐣";
+    } else if (hours < 20) {
+        badgeTitle = "First Steps";
+        badgeIcon = "👣";
+    } else if (hours < 30) {
+        badgeTitle = "Novice";
+        badgeIcon = "🫂";
+    } else if (hours < 40) {
+        badgeTitle = "Beginner";
+        badgeIcon = "🦾";
+    } else if (hours < 50) {
+        badgeTitle = "Intermediate";
+        badgeIcon = "🥰";
+    } else if (hours < 60) {
+        badgeTitle = "Advanced";
+        badgeIcon = "🚀";
+    } else if (hours < 70) {
+        badgeTitle = "Master";
+        badgeIcon = "👷🏻‍♂️";
+    } else if (hours < 80) {
+        badgeTitle = "Hero";
+        badgeIcon = "🦸🏻‍♂️";
+    } else if (hours < 90) {
+        badgeTitle = "King";
+        badgeIcon = "👑";
+    } else {
+        badgeTitle = "Legendary";
+        badgeIcon = "🌟";
+    }
 
-  const someCondition = true; //i the user viewing his own profile or someone else's
-  const areFriends = false;
+    const someCondition = true; // is the user viewing their own profile or someone else's
+    const areFriends = false;
 
-  return (
-    <>
-      <div className="relative flex flex-col items-center justify-center gap-1">
-        <div className="text-white ">
-          <Avatar>
-            <AvatarImage src={user.img} alt={`${user.userName}'s photo`} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          {someCondition ? (
-            <button className="relative bg-red-600 bottom-12">
-              edit profile
-            </button>
-          ) : areFriends ? (
-            <button>remove friend</button>
-          ) : (
-            <button>add friend</button>
-          )}
-        </div>
-        <div className="mb-7"></div>
-        <span className="text-xl font-bold">
-          {badgeIcon} @{user.userName}
-        </span>
-        <span className="sm">📍{user.city}</span>
-        <span className="text-lg">
-          📞: {user.phone} 📬: {user.email}
-        </span>
-        <div className="flex gap-6 p-2 border border-black shadow-2xl justify-evenly w-fit">
-          <div className="flex flex-col">
-            <span>{hours} hours of volunteering!</span>
-            <span>
-              {badgeTitle}
-              {badgeIcon}
-            </span>
-          </div>
-          <Drawer>
-            <DrawerTrigger className="text-black bg-white">
-              <span>{user.friends.length} friends</span>
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerTitle className="text-black">
-                  All of {user.userName}'s friends
-                </DrawerTitle>
-                <DrawerDescription>
-                  Click on each to go to their profile page
-                </DrawerDescription>
-              </DrawerHeader>
-              <DrawerFooter className="overflow-x-auto">
-                <div className="overflow-x-auto">
-                  {user.friends.map((friend) => {
-                    return (
-                      <a key={friend} href="#">
-                        {friend}
-                      </a>
-                    );
-                  })}
+    return (
+        <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-6 bg-gray-100">
+            {/* Avatar and Action Button */}
+            <div className="flex flex-col items-center w-full max-w-md p-4 bg-white rounded-lg shadow-md">
+                <Avatar className="w-32 h-32 shadow-lg">
+                    <AvatarImage
+                        src={user.img}
+                        alt={`${user.userName}'s photo`}
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                {someCondition ? (
+                    <button className="px-4 py-2 mt-3 text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700">
+                        Edit Profile
+                    </button>
+                ) : areFriends ? (
+                    <button className="px-4 py-2 mt-3 text-white bg-red-600 rounded-lg shadow-md hover:bg-red-700">
+                        Remove Friend
+                    </button>
+                ) : (
+                    <button className="px-4 py-2 mt-3 text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700">
+                        Add Friend
+                    </button>
+                )}
+            </div>
+
+            {/* User Info */}
+            <div className="flex flex-col items-center w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+                <span className="flex items-center gap-2 text-2xl font-bold">
+                    {badgeIcon} @{user.userName}
+                </span>
+                <span className="text-lg text-gray-600">📍 {user.city}</span>
+                <span className="text-lg text-gray-600">
+                    📞 {user.phone} 📬 {user.email}
+                </span>
+                <span className="mt-2 italic text-center text-gray-500">
+                    {user.bio}
+                </span>
+            </div>
+
+            {/* Hours and Badge */}
+            <div className="flex items-center justify-between w-full max-w-md gap-4 p-6 bg-white rounded-lg shadow-md">
+                <div className="flex flex-col items-center">
+                    <span className="text-xl font-bold text-gray-800">
+                        {hours}
+                    </span>
+                    <span className="text-gray-500">Hours Volunteered</span>
                 </div>
-                {/* ------------------------------------------------------------------edit friends here------------------------------------------------------------ */}
-                <DrawerClose className="text-white">Close</DrawerClose>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+                <div className="flex flex-col items-center">
+                    <span className="text-xl font-bold text-gray-800">
+                        {badgeTitle} {badgeIcon}
+                    </span>
+                    <span className="text-gray-500">Badge</span>
+                </div>
+                <Drawer>
+                    <DrawerTrigger className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg shadow-md hover:bg-gray-200">
+                        Friends ({user.friends.length})
+                    </DrawerTrigger>
+                    <DrawerContent>
+                        <DrawerHeader>
+                            <DrawerTitle className="text-black">
+                                {user.userName}'s Friends
+                            </DrawerTitle>
+                            <DrawerDescription className="text-gray-600">
+                                Click on a name to view their profile.
+                            </DrawerDescription>
+                        </DrawerHeader>
+                        <DrawerFooter>
+                            <ul className="space-y-2">
+                                {user.friends.map((friend) => (
+                                    <li
+                                        key={friend}
+                                        className="text-blue-600 hover:underline"
+                                    >
+                                        {friend}
+                                    </li>
+                                ))}
+                            </ul>
+                            <DrawerClose className="mt-4 text-red-500">
+                                Close
+                            </DrawerClose>
+                        </DrawerFooter>
+                    </DrawerContent>
+                </Drawer>
+            </div>
+
+            {/* Events */}
+            <div className="flex flex-wrap justify-center gap-6">
+                {user.events.map((currentEv) => (
+                    <EventViewCard
+                        ev={currentEv}
+                        key={currentEv.id}
+                        className="w-full max-w-xs p-4 bg-white rounded-lg shadow-lg"
+                    />
+                ))}
+            </div>
         </div>
-        <span>{user.bio}</span>
-        <div className="flex flex-wrap items-center justify-center event-wrapper">
-          {user.events.map((currentEv) => {
-            return <EventViewCard ev={currentEv} key={currentEv.id} />;
-          })}
-        </div>
-      </div>
-    </>
-  );
+    );
 }
