@@ -10,8 +10,7 @@ const Navbar = () => {
         <>
             {userType === "volunteer" && <VolunteerNavbar />}
             {userType === "organization" && <OrganizationNavbar />}
-            {userType === "" && <OrganizationNavbar />}{" "}
-            {/* Optional fallback */}
+            {userType === "" && <VolunteerNavbar />} {/* Optional fallback */}
         </>
     );
 };

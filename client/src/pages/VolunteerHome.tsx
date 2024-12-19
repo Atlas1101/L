@@ -22,19 +22,19 @@ function VolunteerHome() {
                     <EventCarousel type="date" />
                 </section>
 
-                <section className="mb-10">
-                    {/* <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                {/* <section className="mb-10">
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                         Events Near You
-                    </h2> */}
+                    </h2>
                     <EventCarousel type="location" />
                 </section>
 
                 <section className="mb-10 px-4">
-                    {/* <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                         Events Your Friends Are Attending
-                    </h2> */}
-                    <EventCarousel type="friends" />
-                </section>
+                    </h2>
+                    <EventCarousel type="" />
+                </section> */}
 
                 <section className="mb-10">
                     <EventGrid />

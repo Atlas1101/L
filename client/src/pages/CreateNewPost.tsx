@@ -12,13 +12,14 @@ export default function CreateNewPost({ ev = null }) {
     const details = useRef<HTMLInputElement>(null);
     const capacity = useRef<HTMLInputElement>(null);
     const address = useRef<HTMLInputElement>(null);
+    const imageRef = useRef<HTMLInputElement>(null);
+
     const tags = useRef<HTMLInputElement>(null);
     const date = useRef<HTMLInputElement>(null);
     const startTime = useRef<HTMLInputElement>(null);
     const endTime = useRef<HTMLInputElement>(null);
     const [organization, setOrganization] = useState<string>("");
 
-    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -36,55 +37,58 @@ export default function CreateNewPost({ ev = null }) {
                 `${date.current?.value}T${endTime.current?.value}`
             ),
             status: ev ? ev.status : "open",
-            images: ev ? ev.images : [],
+            images: imageRef.current?.value ? [imageRef.current.value] : [],
             volunteers: ev ? ev.volunteers : [],
             comments: ev ? ev.comments : [],
         };
 
+        // Log the payload
+        console.log("Payload to be sent:", payload);
+
+        // Check individual fields for undefined or invalid values
+        console.log("evName:", evName.current?.value);
+        console.log("details:", details.current?.value);
+        console.log("capacity:", capacity.current?.value);
+        console.log("address:", address.current?.value);
+        console.log("organization:", organization);
+        console.log("tags:", tags.current?.value?.split(" "));
+        console.log("startTime:", payload.startTime);
+        console.log("endTime:", payload.endTime);
+        console.log("images:", payload.images);
+
         try {
             if (isEditing) {
-                // Update existing event
-                await axios.put(`/api/events/${ev._id}`, payload);
+                // Log the PUT request details
+                console.log("Updating event with ID:", ev?._id);
+                const response = await axios.put(
+                    `/api/events/${ev._id}`,
+                    payload
+                );
+                console.log("Update response:", response.data);
                 alert("Event updated successfully!");
             } else {
-                // Create new event
-                await axios.post("/api/events", payload);
+                // Log the POST request details
+                console.log("Creating new event...");
+                const response = await axios.post("/api/events", payload);
+                console.log("Create response:", response.data);
                 alert("Event created successfully!");
             }
+
+            // Log navigation
+            console.log("Navigating to home...");
             navigate("/"); // Navigate to the desired route
         } catch (error) {
-            console.error("Error submitting the form", error);
+            // Log error details
+            console.error("Error during event submission:", error);
+
+            // Log Axios error response if available
+            if (axios.isAxiosError(error)) {
+                console.error("Axios error response:", error.response);
+            }
+
             alert("Failed to submit the event. Please try again.");
         }
     };
-
-    useEffect(() => {
-        if (ev) {
-            // Populate fields if editing
-            evName.current!.value = ev.evName;
-            details.current!.value = ev.details;
-            capacity.current!.value = String(ev.capacity);
-            address.current!.value = ev.address;
-            setOrganization(ev.organization.orgName);
-            tags.current!.value = ev.tags.join(" ");
-            date.current!.value = new Date(ev.startTime)
-                .toISOString()
-                .split("T")[0];
-            startTime.current!.value = new Date(
-                ev.startTime
-            ).toLocaleTimeString("en-GB", {
-                hour: "2-digit",
-                minute: "2-digit",
-            });
-            endTime.current!.value = new Date(ev.endTime).toLocaleTimeString(
-                "en-GB",
-                {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                }
-            );
-        }
-    }, [ev]);
 
     return (
         <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
@@ -138,6 +142,24 @@ export default function CreateNewPost({ ev = null }) {
                         type="number"
                     />
                 </div>
+                {/* Image URL */}
+                <div>
+                    <label
+                        htmlFor="imageUrl"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                        Event Image URL
+                    </label>
+                    <Input
+                        type="url"
+                        ref={imageRef}
+                        name="imageUrl"
+                        id="imageUrl"
+                        className="w-full"
+                        placeholder="https://example.com/image.jpg"
+                    />
+                </div>
+
                 {/* Address */}
                 <div>
                     <label

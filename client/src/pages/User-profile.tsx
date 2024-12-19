@@ -80,117 +80,136 @@ export default function UserProfile() {
     }
 
     if (hours < 10) {
-        badgeTitle = "baby";
+        badgeTitle = "Baby";
         badgeIcon = "🐣";
     } else if (hours < 20) {
-        badgeTitle = "first steps";
+        badgeTitle = "First Steps";
         badgeIcon = "👣";
     } else if (hours < 30) {
-        badgeTitle = "novice";
+        badgeTitle = "Novice";
         badgeIcon = "🫂";
     } else if (hours < 40) {
-        badgeTitle = "beginner";
+        badgeTitle = "Beginner";
         badgeIcon = "🦾";
     } else if (hours < 50) {
-        badgeTitle = "intermediate";
+        badgeTitle = "Intermediate";
         badgeIcon = "🥰";
     } else if (hours < 60) {
-        badgeTitle = "advanced";
+        badgeTitle = "Advanced";
         badgeIcon = "🚀";
     } else if (hours < 70) {
-        badgeTitle = "master";
+        badgeTitle = "Master";
         badgeIcon = "👷🏻‍♂️";
     } else if (hours < 80) {
-        badgeTitle = "hero";
+        badgeTitle = "Hero";
         badgeIcon = "🦸🏻‍♂️";
     } else if (hours < 90) {
-        badgeTitle = "king";
+        badgeTitle = "King";
         badgeIcon = "👑";
     } else {
-        badgeTitle = "legendary";
+        badgeTitle = "Legendary";
         badgeIcon = "🌟";
     }
 
-    const someCondition = true; //i the user viewing his own profile or someone else's
+    const someCondition = true; // is the user viewing their own profile or someone else's
     const areFriends = false;
 
     return (
-        <>
-            <div className="flex flex-col justify-center items-center gap-1 relative">
-                <div className="text-white ">
-                    <Avatar>
-                        <AvatarImage
-                            src={user.img}
-                            alt={`${user.userName}'s photo`}
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    {someCondition ? (
-                        <button className="relative bottom-12 bg-red-600">
-                            edit profile
-                        </button>
-                    ) : areFriends ? (
-                        <button>remove friend</button>
-                    ) : (
-                        <button>add friend</button>
-                    )}
-                </div>
-                <div className="mb-7"></div>
-                <span className="font-bold text-xl">
+        <div className="flex flex-col justify-center items-center gap-6 p-6 bg-gray-100 min-h-screen">
+            {/* Avatar and Action Button */}
+            <div className="flex flex-col items-center bg-white shadow-md p-4 rounded-lg w-full max-w-md">
+                <Avatar className="w-32 h-32 shadow-lg">
+                    <AvatarImage
+                        src={user.img}
+                        alt={`${user.userName}'s photo`}
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                {someCondition ? (
+                    <button className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700">
+                        Edit Profile
+                    </button>
+                ) : areFriends ? (
+                    <button className="mt-3 px-4 py-2 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700">
+                        Remove Friend
+                    </button>
+                ) : (
+                    <button className="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700">
+                        Add Friend
+                    </button>
+                )}
+            </div>
+
+            {/* User Info */}
+            <div className="flex flex-col items-center bg-white shadow-md p-6 rounded-lg w-full max-w-md">
+                <span className="font-bold text-2xl flex items-center gap-2">
                     {badgeIcon} @{user.userName}
                 </span>
-                <span className="sm">📍{user.city}</span>
-                <span className="text-lg">
-                    📞: {user.phone} 📬: {user.email}
+                <span className="text-gray-600 text-lg">📍 {user.city}</span>
+                <span className="text-gray-600 text-lg">
+                    📞 {user.phone} 📬 {user.email}
                 </span>
-                <div className="border border-black flex justify-evenly gap-6 w-fit p-2 shadow-2xl">
-                    <div className="flex flex-col">
-                        <span>{hours} hours of volunteering!</span>
-                        <span>
-                            {badgeTitle}
-                            {badgeIcon}
-                        </span>
-                    </div>
-                    <Drawer>
-                        <DrawerTrigger className="bg-white text-black">
-                            <span>{user.friends.length} friends</span>
-                        </DrawerTrigger>
-                        <DrawerContent>
-                            <DrawerHeader>
-                                <DrawerTitle className="text-black">
-                                    All of {user.userName}'s friends
-                                </DrawerTitle>
-                                <DrawerDescription>
-                                    Click on each to go to their profile page
-                                </DrawerDescription>
-                            </DrawerHeader>
-                            <DrawerFooter className="overflow-x-auto">
-                                <div className="overflow-x-auto">
-                                    {user.friends.map((friend) => {
-                                        return (
-                                            <a key={friend} href="#">
-                                                {friend}
-                                            </a>
-                                        );
-                                    })}
-                                </div>
-                                {/* ------------------------------------------------------------------edit friends here------------------------------------------------------------ */}
-                                <DrawerClose className="text-white">
-                                    Close
-                                </DrawerClose>
-                            </DrawerFooter>
-                        </DrawerContent>
-                    </Drawer>
-                </div>
-                <span>{user.bio}</span>
-                <div className="event-wrapper flex flex-wrap items-center justify-center">
-                    {user.events.map((currentEv) => {
-                        return (
-                            <EventViewCard ev={currentEv} key={currentEv.id} />
-                        );
-                    })}
-                </div>
+                <span className="mt-2 text-gray-500 italic text-center">
+                    {user.bio}
+                </span>
             </div>
-        </>
+
+            {/* Hours and Badge */}
+            <div className="flex items-center justify-between gap-4 bg-white shadow-md p-6 rounded-lg w-full max-w-md">
+                <div className="flex flex-col items-center">
+                    <span className="text-gray-800 font-bold text-xl">
+                        {hours}
+                    </span>
+                    <span className="text-gray-500">Hours Volunteered</span>
+                </div>
+                <div className="flex flex-col items-center">
+                    <span className="text-gray-800 font-bold text-xl">
+                        {badgeTitle} {badgeIcon}
+                    </span>
+                    <span className="text-gray-500">Badge</span>
+                </div>
+                <Drawer>
+                    <DrawerTrigger className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg shadow-md hover:bg-gray-200">
+                        Friends ({user.friends.length})
+                    </DrawerTrigger>
+                    <DrawerContent>
+                        <DrawerHeader>
+                            <DrawerTitle className="text-black">
+                                {user.userName}'s Friends
+                            </DrawerTitle>
+                            <DrawerDescription className="text-gray-600">
+                                Click on a name to view their profile.
+                            </DrawerDescription>
+                        </DrawerHeader>
+                        <DrawerFooter>
+                            <ul className="space-y-2">
+                                {user.friends.map((friend) => (
+                                    <li
+                                        key={friend}
+                                        className="hover:underline text-blue-600"
+                                    >
+                                        {friend}
+                                    </li>
+                                ))}
+                            </ul>
+                            <DrawerClose className="mt-4 text-red-500">
+                                Close
+                            </DrawerClose>
+                        </DrawerFooter>
+                    </DrawerContent>
+                </Drawer>
+            </div>
+
+            {/* Events */}
+            <div className="flex flex-wrap justify-center gap-6">
+                {user.events.map((currentEv) => (
+                    <EventViewCard
+                        ev={currentEv}
+                        key={currentEv.id}
+                        className="shadow-lg rounded-lg p-4 bg-white w-full max-w-xs"
+                    />
+                ))}
+            </div>
+        </div>
     );
 }

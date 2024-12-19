@@ -20,8 +20,8 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path="/" element={<SignUp />} />
-                <Route path="/homev" element={<VolunteerHome />} />
+                <Route path="/" element={<VolunteerHome />} />
+                <Route path="/Volunteer-home" element={<VolunteerHome />} />
 
                 <Route path="/User-profile" element={<UserProfile />} />
 
@@ -29,9 +29,9 @@ function App() {
                     path="/Organization-profile"
                     element={<OrganizationProfile />}
                 />
-                <Route path="/event-page/:id" element={<EventPage />} />
-                <Route path="/new-event" element={<CreateNewPost />} />
-                <Route path="/search" element={<SearchPage />} />
+                <Route path="/Event-page/:id" element={<EventPage />} />
+                <Route path="/Create" element={<CreateNewPost />} />
+                <Route path="/Search" element={<SearchPage />} />
             </Routes>
         </PageLayout>
     );
