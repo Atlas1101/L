@@ -11,6 +11,8 @@ import PageLayout from "./components/PageComponents/PageLayout.tsx";
 import EventPage from "./pages/Event-page.tsx";
 import CreateNewPost from "./pages/CreateNewPost.tsx";
 import SearchPage from "./pages/Search-page.tsx";
+import ChatComingSoon from "./pages/Chat.tsx";
+
 import UserPage from "./pages/userpage.tsx";
 function App() {
   return (
@@ -34,11 +36,11 @@ function App() {
 }
 
 function Root() {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    );
 }
 
 export default Root;

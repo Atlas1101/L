@@ -5,69 +5,69 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
 } from "@/components/ui/drawer";
 import { log } from "console";
 
 const user: User = {
-  userName: "Liraz",
-  img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJU0xNuXogCM5T_euKq_q17d0Ispz5s-b86w&s",
-  bio: "please help me im under the water",
-  email: "liraz@gmail.com",
-  phone: "0501234567",
-  password: "1234567890",
-  friends: ["Ahron", "Ori", "Amit", "Itay", "Porat"],
-  events: [
-    {
-      id: "0987654321",
-      evName: "fund raising",
-      images: [
-        "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg",
-      ],
-      details: "We want your money",
-      volunteers: [],
-      capacity: 100,
-      comments: [{ rating: 3 }, { rating: 5 }],
-      address: "Tel-Aviv",
-      location: "",
-      organization: "Microsoft",
-      status: "open",
-      tags: ["money", "beingLame", "takingMoney"],
-      startTime: new Date(),
-      endTime: new Date(),
-      hours: 99,
-      users: [],
-    },
-    {
-      id: "09876543211",
-      evName: "fund raising",
-      images: [
-        "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg",
-      ],
-      details: "We want your money",
-      volunteers: [],
-      capacity: 20,
-      comments: [{ rating: 3 }, { rating: 5 }],
-      address: "Tel-Aviv",
-      location: "",
-      organization: "Microsoft",
-      status: "open",
-      tags: ["money", "beingLame", "takingMoney"],
-      startTime: new Date(),
-      endTime: new Date(),
-      hours: 1,
-      users: [],
-    },
-  ],
-  city: "Here",
-  age: 18,
+    userName: "Liraz",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJU0xNuXogCM5T_euKq_q17d0Ispz5s-b86w&s",
+    bio: "please help me im under the water",
+    email: "liraz@gmail.com",
+    phone: "0501234567",
+    password: "1234567890",
+    friends: ["Ahron", "Ori", "Amit", "Itay", "Porat"],
+    events: [
+        {
+            id: "0987654321",
+            evName: "fund raising",
+            images: [
+                "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg",
+            ],
+            details: "We want your money",
+            volunteers: [],
+            capacity: 100,
+            comments: [{ rating: 3 }, { rating: 5 }],
+            address: "Tel-Aviv",
+            location: "",
+            organization: "Microsoft",
+            status: "open",
+            tags: ["money", "beingLame", "takingMoney"],
+            startTime: new Date(),
+            endTime: new Date(),
+            hours: 99,
+            users: [],
+        },
+        {
+            id: "09876543211",
+            evName: "fund raising",
+            images: [
+                "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-560w,f_auto,q_auto:best/newscms/2019_06/2746941/190208-stock-money-fanned-out-ew-317p.jpg",
+            ],
+            details: "We want your money",
+            volunteers: [],
+            capacity: 20,
+            comments: [{ rating: 3 }, { rating: 5 }],
+            address: "Tel-Aviv",
+            location: "",
+            organization: "Microsoft",
+            status: "open",
+            tags: ["money", "beingLame", "takingMoney"],
+            startTime: new Date(),
+            endTime: new Date(),
+            hours: 1,
+            users: [],
+        },
+    ],
+    city: "Here",
+    age: 18,
 };
 
 export default function UserProfile() {
@@ -77,13 +77,13 @@ export default function UserProfile() {
   let badgeTitle = "";
   let badgeIcon = "";
 
-  function getHours() {
-    let hours = 0;
-    user.events.forEach((ev) => {
-      hours += ev.hours;
-    });
-    return hours;
-  }
+    function getHours() {
+        let hours = 0;
+        user.events.forEach((ev) => {
+            hours += ev.hours;
+        });
+        return hours;
+    }
 
   if (hours < 10) {
     badgeTitle = "Baby";
