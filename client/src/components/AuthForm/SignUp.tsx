@@ -344,7 +344,10 @@ const SignUp = () => {
                     type={showPassword ? "text" : "password"}
                     value={organizationForm.confirmPassword}
                     onChange={(e) =>
-                      handleOrganizationChange("confirmPassword", e.target.value)
+                      handleOrganizationChange(
+                        "confirmPassword",
+                        e.target.value
+                      )
                     }
                   />
                 </FormControl>
@@ -361,13 +364,12 @@ const SignUp = () => {
               Sign Up
             </Button>
 
-            <Typography
-              variant="body2"
-              align="center"
-              sx={{ mt: 2 }}
-            >
+            <Typography variant="body2" align="center" sx={{ mt: 2 }}>
               Already have an account?{" "}
-              <Link to="/login" style={{ textDecoration: "none", color: "inherit" }}>
+              <Link
+                to="/login"
+                style={{ textDecoration: "underline", color: "#69247c" }}
+              >
                 Login here
               </Link>
             </Typography>

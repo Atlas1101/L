@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "@/store/slices/userSlice";
+import { validateToken } from "@/api/userAPI";
+import { validateOrganizationToken } from "@/api/organizationAPI";
 import EventCarousel from "@/components/EventComponents/EventCarousel";
 import EventGrid from "@/components/EventComponents/EventGrid";
 import { DrawerLeader } from "@/components/FriendComponent/DrawerLeader";
@@ -22,7 +26,7 @@ function VolunteerHome() {
       const myuser = await validateToken();
 
       // Check if username or orgName exists in the response
-      if (myuser?.data?.username.username !== undefined) {
+      if (myuser?.data?.username?.username !== undefined) {
         console.log("here");
         const userId = myuser.data.username._id;
         const username = myuser.data.username.username;
@@ -40,7 +44,6 @@ function VolunteerHome() {
 
     fetchData();
   }, [dispatch]);
-  // The useEffect only depends on dispatch, not `user`
 
   useEffect(() => {
     if (user?.success) {
@@ -66,28 +69,11 @@ function VolunteerHome() {
         </p>
       </header>
 
-            <main className="w-full max-w-6xl p-4 mx-3">
-                <DrawerLeader />
-                <section className="mb-10">
-                    {/* <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                        Upcoming Events
-                    </h2> */}
-                    <EventCarousel type="date" />
-                </section>
-
-                {/* <section className="mb-10">
-                    <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                        Events Near You
-                    </h2>
-                    <EventCarousel type="location" />
-                </section>
-
-                <section className="px-4 mb-10">
-                    <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                        Events Your Friends Are Attending
-                    </h2>
-                    <EventCarousel type="" />
-                </section> */}
+      <main className="w-full max-w-6xl p-4 mx-3">
+        <DrawerLeader />
+        <section className="mb-10">
+          <EventCarousel type="date" />
+        </section>
 
         <section className="mb-10">
           <EventGrid />

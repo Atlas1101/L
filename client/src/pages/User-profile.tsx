@@ -68,8 +68,8 @@ const user: User = {
 };
 
 export default function UserProfile() {
-  const user = useSelector((state: RootState) => state.user);
-  console.log(user.userData.username.username);
+//   const user = useSelector((state: RootState) => state.user);
+//   console.log(user.userData.username.username);
   const hours = getHours();
   let badgeTitle = "";
   let badgeIcon = "";
