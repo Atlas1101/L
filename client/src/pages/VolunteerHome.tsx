@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import EventCarousel from "@/components/EventComponents/EventCarousel";
 import EventGrid from "@/components/EventComponents/EventGrid";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,73 +8,57 @@ import { validateOrganizationToken } from "@/api/organizationAPI";
 
 function VolunteerHome() {
   const dispatch = useDispatch();
+  const storedUser = useSelector((state: RootState) => state.user.userData);
+  const [user, setUserState] = useState(storedUser); // Initialize state with the stored user data
+
+  const getCookie = (name: string) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        let responseData = await validateOrganizationToken();
-        if (responseData === undefined) {
-          responseData = await validateToken();
-        }
+      const jwt = getCookie("jwt");
+      console.log("JWT:", jwt); // Output the jwt value
 
-        if (responseData?.data) {
-          const { username, _id, orgName } = responseData.data;
+      const myuser = await validateToken();
 
-          const payload = {
-            userId: _id,
-            username: username || orgName || "",
-            userType: username ? "user" : "organization",
-          };
+      // Check if username or orgName exists in the response
+      if (myuser?.data?.username.username !== undefined) {
+        console.log("here");
+        const userId = myuser.data.username._id;
+        const username = myuser.data.username.username;
+        const userType = "user";
+        const myNewUser = { userId, username, userType };
+        console.log("new user", myNewUser);
 
-          dispatch(setUser(payload));
-        }
-      } catch (error) {
-        console.error("Error validating token:", error);
+        dispatch(setUser(myNewUser));
+      } else if (myuser?.data?.orgName) {
+        dispatch(setUser({ ...myuser, userType: "organization" }));
       }
+
+      setUserState(myuser); // Update local state with the user data
     };
 
     fetchData();
   }, [dispatch]);
-
-  const user = useSelector((state: RootState) => state.user);
-  useEffect(() => {
-    if (user.isAuthenticated) {
-      console.log("Username:", user.userData?.username || "No username found");
-      console.log(
-        "User ID:",
-        user.userData?.username._id || "No user ID found"
-      );
-      console.log(
-        "User Type:",
-        user.userData?.userType || "No user type found"
-      );
-    } else {
-      console.log("User is not authenticated.");
-    }
-  }, [user]);
-
-  // Ensure that the username exists before logging
-  console.log(user?.userData?.username);
+  // The useEffect only depends on dispatch, not `user`
 
   useEffect(() => {
-    if (user.isAuthenticated) {
-      // הדפס את הערכים המתאימים
+    if (user?.success) {
+      console.log(user);
+
       console.log(
         "Username:",
-        user.userData?.username.username || "No username found"
+        user?.data.username.username || "No username found"
       );
-      console.log(
-        "User ID:",
-        user.userData?.username._id || "No user ID found"
-      );
-      console.log(
-        "User Type:",
-        user.userData?.userType || "No user type found"
-      );
+      console.log("User ID:", user?.data.username._id || "No user ID found");
+      console.log("User Type:", user?.data?.userType || "No user type found");
     } else {
       console.log("User is not authenticated.");
     }
-  }, [user]);
+  }, [user]); // React to changes in `user` state
 
   return (
     <div className="flex flex-col items-center max-w-full min-h-screen px-1 bg-gray-50">
