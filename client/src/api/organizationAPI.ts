@@ -11,6 +11,7 @@ export const validateOrganizationToken = async () => {
       `${BASE_URL}/organizations/validateToken`,
       { withCredentials: true }
     );
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Token validation failed", error);

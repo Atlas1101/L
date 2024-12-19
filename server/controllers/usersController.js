@@ -9,8 +9,9 @@ const JWT_EXPIRATION = { expiresIn: "1h" };
 //token validation
 export const TokenValid = (req, res) => {
   try {
+    console.log("aaa");
     res.status(200).send({
-      username: req.user.username,
+      username: req.user,
     });
   } catch (error) {
     res.status(500).send({

@@ -103,7 +103,7 @@ const Login: React.FC = () => {
           );
 
           setMsgText("Login successful!");
-          setTimeout(() => navigate("/home"), 1500);
+          setTimeout(() => navigate("/Volunteer-home"), 1500);
         } else {
           setMsgText(
             (response.error as string) || "Login failed. Please try again."

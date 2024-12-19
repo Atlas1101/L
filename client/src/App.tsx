@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 
 //import Pages
@@ -19,6 +19,13 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<SignUp />} />
         <Route path="/Amutah-profile" element={<AmutahProfilePage />} />
+        <Route path="/" element={<SignUp />} />
+        <Route path="/Volunteer-home" element={<VolunteerHome />} />
+
+        <Route path="/User-profile" element={<UserProfile />} />
+
+        <Route path="/Organization-profile" element={<OrganizationProfile />} />
+        <Route path="/Event-page/:id" element={<EventPage />} />
       </Routes>
     </PageLayout>
   );
