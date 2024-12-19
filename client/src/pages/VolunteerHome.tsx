@@ -4,7 +4,6 @@ import EventGrid from "@/components/EventComponents/EventGrid";
 import { useSelector, useDispatch } from "react-redux";
 import { validateToken } from "@/api/userAPI";
 import { setUser } from "@/store/slices/userSlice";
-import { validateOrganizationToken } from "@/api/organizationAPI";
 
 function VolunteerHome() {
   const dispatch = useDispatch();

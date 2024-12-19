@@ -1,16 +1,14 @@
 // organizationApiClient.ts - API calls related to organizations
 import axios from "axios";
 import { Organization } from "@/types/user";
-// Define the base URL for the API
 const BASE_URL = "http://localhost:3000/api";
 
 // Function to validate the organization token
 export const validateOrganizationToken = async () => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/organizations/validateToken`,
-      { withCredentials: true }
-    );
+    const response = await axios.get(`${BASE_URL}/organizations/validateToken`, {
+      withCredentials: true,
+    });
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -48,10 +46,7 @@ export const getOrganizationByName = async (orgName: string) => {
 // Sign up a new organization
 export const signUpOrganization = async (orgData: Organization) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/organizations/signup`,
-      orgData
-    );
+    const response = await axios.post(`${BASE_URL}/organizations/signup`, orgData);
     return response.data;
   } catch (error) {
     console.error("Failed to sign up organization", error);
@@ -60,19 +55,11 @@ export const signUpOrganization = async (orgData: Organization) => {
 };
 
 // Sign in an organization
-export const signInOrganization = async (orgData: {
-  email: string;
-  password: string;
-}) => {
-  console.log("hey");
-
+export const signInOrganization = async (orgData: { email: string; password: string }) => {
   try {
-    console.log(orgData);
-    const response = await axios.post(
-      `${BASE_URL}/organizations/signIn`,
-      orgData,
-      { withCredentials: true }
-    );
+    const response = await axios.post(`${BASE_URL}/organizations/signIn`, orgData, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("Failed to sign in organization", error);
@@ -83,11 +70,9 @@ export const signInOrganization = async (orgData: {
 // Log out an organization
 export const logOutOrganization = async () => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/organizations/logOut`,
-      {},
-      { withCredentials: true }
-    );
+    const response = await axios.post(`${BASE_URL}/organizations/logOut`, {}, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("Failed to log out organization", error);
@@ -96,29 +81,43 @@ export const logOutOrganization = async () => {
 };
 
 // Update organization data
-export const updateOrganization = async (updateData: any) => {
+interface UpdateOrganizationPayload {
+  orgId: string;
+  newOrgName?: string;
+  newEmail?: string;
+  newPhone?: string;
+  newCity?: string;
+  newAbout?: string;
+}
+
+export const updateOrganization = async (payload: UpdateOrganizationPayload) => {
   try {
     const response = await axios.patch(
       `${BASE_URL}/organizations/updateOrganization`,
-      updateData,
+      payload,
       { withCredentials: true }
     );
     return response.data;
   } catch (error) {
-    console.error("Failed to update organization", error);
+    console.error("Error updating organization:", error);
     throw error;
   }
 };
 
-// Delete an organization
-export const deleteOrganization = async () => {
+// Payload for deleting an organization
+interface DeleteOrganizationPayload {
+  orgId: string;
+}
+
+export const deleteOrganization = async (payload: DeleteOrganizationPayload) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/organizations/delete`, {
-      withCredentials: true,
-    });
+    const response = await axios.delete(
+      `${BASE_URL}/organizations/delete`,
+      { data: payload, withCredentials: true }
+    );
     return response.data;
   } catch (error) {
-    console.error("Failed to delete organization", error);
+    console.error("Error deleting organization:", error);
     throw error;
   }
 };

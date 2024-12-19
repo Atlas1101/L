@@ -153,24 +153,31 @@ export const logOutOrganization = (req, res) => {
 // Update an organization
 export const updateOrganization = async (req, res) => {
   try {
-    const { newOrgName, newEmail, newPhone, newCity, newAbout } = req.body;
-    const id = req.organization._id;
-    const updateData = {};
+    const { orgId, newOrgName, newEmail, newPhone, newCity, newAbout } = req.body;
 
+    if (!orgId) {
+      return res.status(400).json({ error: "Organization ID is required." });
+    }
+
+    const updateData = {};
     if (newOrgName) updateData.orgName = newOrgName;
     if (newEmail) updateData.email = newEmail;
     if (newPhone) updateData.phone = newPhone;
     if (newCity) updateData.city = newCity;
     if (newAbout) updateData.about = newAbout;
 
-    const updatedOrg = await Organization.findByIdAndUpdate(id, updateData, {
+    const updatedOrg = await Organization.findByIdAndUpdate(orgId, updateData, {
       new: true,
     });
 
-    // update ev
+    if (!updatedOrg) {
+      return res.status(404).json({ error: "Organization not found." });
+    }
+
+    // Update events if the organization name is changed
     if (newOrgName) {
       await Event.updateMany(
-        { organization: id },
+        { organization: orgId },
         { $set: { organization: updatedOrg._id } }
       );
     }
@@ -186,20 +193,24 @@ export const updateOrganization = async (req, res) => {
 
 // Delete an organization
 export const deleteOrganization = async (req, res) => {
-  const id = req.organization._id;
+  const { orgId } = req.body;
+
+  if (!orgId) {
+    return res.status(400).json({ error: "Organization ID is required." });
+  }
 
   try {
-    // delete events
-    const events = await Event.find({ organization: id });
-    await Event.deleteMany({ organization: id });
+    // Delete events
+    const events = await Event.find({ organization: orgId });
+    await Event.deleteMany({ organization: orgId });
 
-    // delete comments of the events
+    // Delete comments of the events
     await Comment.deleteMany({
       eventId: { $in: events.map((event) => event._id) },
     });
 
-    //  delete tje organization
-    const deletedOrg = await Organization.findByIdAndDelete(id);
+    // Delete the organization
+    const deletedOrg = await Organization.findByIdAndDelete(orgId);
 
     if (!deletedOrg) {
       return res.status(404).json({ error: "Organization not found." });

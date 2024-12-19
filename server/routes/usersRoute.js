@@ -10,7 +10,9 @@ import {
   getUserFriends,
   sendFriendRequest,
   removeFriend,
-  logOut,
+  // logOut,
+  joinEvent,
+  leaveEvent,
 } from "../controllers/usersController.js";
 
 import verifyToken from "../middleware/auth.js";
@@ -30,10 +32,10 @@ router.get("/:username", getUserByUsername);
 router.get("/:username/friends", getUserFriends);
 
 // Send a friend request
-router.post("/sendFriendRequest", verifyToken, sendFriendRequest);
+router.post("/sendFriendRequest", sendFriendRequest);
 
 // Remove a friend
-router.post("/removeFriend", verifyToken, removeFriend);
+router.post("/removeFriend", removeFriend);
 
 //create user
 router.post("/signup", createNewUser);
@@ -42,12 +44,15 @@ router.post("/signup", createNewUser);
 router.post("/signIn", singInUser);
 
 //logout
-router.post("/logOut", verifyToken, logOut);
+// router.post("/logOut", logOut);
 
 // Update a user
-router.patch("/updateUser", verifyToken, updateUser);
+router.patch("/updateUser", updateUser);
 
 // Delete a user by username
-router.delete("/delete", verifyToken, deleteUser);
+// router.delete("/delete", deleteUser);
+
+router.post("/events/join", joinEvent);
+router.post("/events/leave", leaveEvent);
 
 export default router;

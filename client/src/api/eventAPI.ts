@@ -99,17 +99,48 @@ export const updateEvent = async (id: string, eventData: any) => {
   }
 };
 
-// delete event
-export const deleteEvent = async (id: string) => {
+// Delete event
+export const deleteEvent = async (req, res) => {
   try {
-    const response = await axios.delete(`${base_url}/api/events/${id}`, {
-      withCredentials: true,
-    });
-    return response.data;
+    const { orgId } = req.body;
+
+    if (!orgId) {
+      return res.status(400).json({ error: "Organization ID is required." });
+    }
+
+    const event = await Event.findById(req.params.id);
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found." });
+    }
+
+    if (event.organization.toString() !== orgId) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this event." });
+    }
+
+    // Remove event from organization
+    const organization = await Organization.findById(orgId);
+    if (organization) {
+      organization.events = organization.events.filter(
+        (eventId) => eventId.toString() !== event._id.toString()
+      );
+      await organization.save();
+    }
+
+    // Remove event from users lists
+    await User.updateMany(
+      { _id: { $in: event.volunteers } },
+      { $pull: { events: event._id } }
+    );
+
+    // Remove comments of event
+    await Comment.deleteMany({ eventId: event._id });
+
+    await event.remove();
+    res.status(200).json({ message: "Event deleted successfully." });
   } catch (error) {
-    return {
-      success: false,
-      error: error.response?.data || error.message,
-    };
+    res.status(500).json({ error: "Unknown server error." });
   }
 };

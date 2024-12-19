@@ -25,12 +25,12 @@ router.get("/user/:userId", getEventsByUser);
 router.get("/organization/:orgId", getEventsByOrganization);
 
 // Create event
-router.post("/", verifyToken, createEvent);
+router.post("/", createEvent);
 
 // Update event
-router.put("/:id", verifyToken, updateEvent);
+router.put("/:id", updateEvent);
 
 // Delete event
-router.delete("/:id", verifyToken, deleteEvent);
+router.delete("/:id", deleteEvent);
 
 export default router;

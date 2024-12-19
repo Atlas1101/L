@@ -13,9 +13,9 @@ const router = express.Router();
 router.get("/event/:id", getCommentsByEventId);
 
 // new comment
-router.post("/", verifyToken, createComment);
+router.post("/", createComment);
 
 // Delete a comment by ID
-router.delete("/:id", verifyToken, deleteComment);
+router.delete("/:id", deleteComment);
 
 export default router;

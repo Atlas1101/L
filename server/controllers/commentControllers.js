@@ -2,8 +2,7 @@ import Event from "../models/eventModel.js";
 import Comment from "../models/commentModel.js";
 // Create a new comment
 export const createComment = async (req, res) => {
-  const { comContent, eventId, rating } = req.body;
-  const userId = req.user._id;
+  const { comContent, eventId, rating, userId } = req.body; // userId comes from the request body
 
   if (!comContent || !userId || !eventId) {
     return res
@@ -15,7 +14,7 @@ export const createComment = async (req, res) => {
     const newComment = new Comment({ comContent, userId, eventId, rating });
     await newComment.save();
 
-    //edit the ev comment arr
+    //edit the event's comment array
     const event = await Event.findById(eventId);
     if (!event) {
       return res.status(404).json({ error: "Event not found" });
@@ -69,10 +68,10 @@ export const updateComment = async (req, res) => {
     res.status(500).json({ error: "Server error." });
   }
 };
-
 // Delete a comment by ID
 export const deleteComment = async (req, res) => {
-  const userId = req.user._id;
+  const { userId } = req.body; // userId from request body
+
   try {
     const commentToDelete = await Comment.findById(req.params.id);
     if (!commentToDelete) {
@@ -87,7 +86,7 @@ export const deleteComment = async (req, res) => {
 
     const deletedComment = await Comment.findByIdAndDelete(req.params.id);
 
-    // remove  from ev comment arr
+    // remove from event's comment array
     const event = await Event.findById(commentToDelete.eventId);
     if (event) {
       event.comments = event.comments.filter(

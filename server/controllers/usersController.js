@@ -176,9 +176,7 @@ export const getUserFriends = async (req, res) => {
 
 // Add a friend
 export const sendFriendRequest = async (req, res) => {
-  const { targetUserId } = req.body;
-  const userId = req.user._id;
-
+  const { userId, targetUserId } = req.body;
   try {
     const user = await User.findById(userId);
     const targetUser = await User.findById(targetUserId);
@@ -202,11 +200,9 @@ export const sendFriendRequest = async (req, res) => {
   }
 };
 
-// Remove a friend (unfriend)
+// Remove a friend
 export const removeFriend = async (req, res) => {
-  const { targetUserId } = req.body;
-  const userId = req.user._id;
-
+  const { userId, targetUserId } = req.body;
   try {
     const user = await User.findById(userId);
     const targetUser = await User.findById(targetUserId);
@@ -237,21 +233,28 @@ export const removeFriend = async (req, res) => {
 
 // Update an existing user
 export const updateUser = async (req, res) => {
+  const {
+    userId,
+    newUsername,
+    newEmail,
+    newImg,
+    newBio,
+    newCity,
+    newPhone,
+    newAge,
+  } = req.body;
+  const updateData = {};
+
+  if (newUsername) updateData.username = newUsername;
+  if (newEmail) updateData.email = newEmail;
+  if (newImg) updateData.img = newImg;
+  if (newBio) updateData.bio = newBio;
+  if (newCity) updateData.city = newCity;
+  if (newPhone) updateData.phone = newPhone;
+  if (newAge) updateData.age = newAge;
+
   try {
-    const { newUsername, newEmail, newImg, newBio, newCity, newPhone, newAge } =
-      req.body;
-    const id = req.user._id;
-    const updateData = {};
-
-    if (newUsername) updateData.username = newUsername;
-    if (newEmail) updateData.email = newEmail;
-    if (newImg) updateData.img = newImg;
-    if (newBio) updateData.bio = newBio;
-    if (newCity) updateData.city = newCity;
-    if (newPhone) updateData.phone = newPhone;
-    if (newAge) updateData.age = newAge;
-
-    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true,
     });
 
@@ -264,36 +267,100 @@ export const updateUser = async (req, res) => {
   }
 };
 
-//logout
-export const logOut = (req, res) => {
-  res.clearCookie("jwt", {
-    httpOnly: false,
-    secure: true,
-    sameSite: "strict",
-    path: "/login",
-  });
-  res.status(200).send({
-    message: "Successfully logged out.",
-  });
+
+// Join an event
+export const joinEvent = async (req, res) => {
+  try {
+    const { eventId, username } = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found." });
+    }
+
+    // Check if user is already a volunteer
+    if (event.volunteers.includes(user._id)) {
+      return res.status(400).json({ message: "User is already in the event." });
+    }
+
+    // Add user to event and event to user
+    event.volunteers.push(user._id);
+    user.events.push(event._id);
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ message: "User joined the event successfully." });
+  } catch (error) {
+    res.status(500).json({ error: "Unknown server error." });
+  }
 };
 
-// Delete a user by username
+// Leave an event
+export const leaveEvent = async (req, res) => {
+  try {
+    const { eventId, username } = req.body;
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found." });
+    }
+
+    // Check if user is part of the event
+    if (!event.volunteers.includes(user._id)) {
+      return res.status(400).json({ message: "User is not in the event." });
+    }
+
+    // Remove user from event and event from user
+    event.volunteers = event.volunteers.filter(
+      (volunteerId) => volunteerId.toString() !== user._id.toString()
+    );
+    user.events = user.events.filter(
+      (userEventId) => userEventId.toString() !== event._id.toString()
+    );
+
+    await event.save();
+    await user.save();
+
+    res.status(200).json({ message: "User left the event successfully." });
+  } catch (error) {
+    res.status(500).json({ error: "Unknown server error." });
+  }
+};
+
+
+// Delete a user by ID
 export const deleteUser = async (req, res) => {
-  const id = req.user._id;
+  const { userId } = req.body; // Make sure you get the userId from the request body
 
   try {
-    await Comment.deleteMany({ userId: id });
-    const deletedUser = await User.findByIdAndDelete(id);
-
-    if (!deletedUser) {
+    const userToDelete = await User.findById(req.params.id);
+    if (!userToDelete) {
       return res.status(404).json({ error: "User not found." });
     }
 
+    // Check if the user is authorized to delete this user (or add your own logic here)
+    if (userToDelete._id.toString() !== userId.toString()) {
+      return res.status(403).json({ error: "You are not authorized to delete this user." });
+    }
+
+    await User.findByIdAndDelete(req.params.id);
+
     res.status(200).json({
       message: "User deleted successfully",
-      user: deletedUser,
     });
   } catch (error) {
+    console.error("Error deleting user:", error);
     res.status(500).json({ error: "Server error." });
   }
 };

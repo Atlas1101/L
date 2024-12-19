@@ -30,12 +30,12 @@ router.post("/signup", createNewOrganization);
 router.post("/signIn", signInOrganization);
 
 // Logout
-router.post("/logOut", verifyToken, logOutOrganization);
+router.post("/logOut", logOutOrganization);
 
 // Update organization
-router.patch("/updateOrganization", verifyToken, updateOrganization);
+router.patch("/updateOrganization", updateOrganization);
 
 // Delete organization
-router.delete("/delete", verifyToken, deleteOrganization);
+router.delete("/delete", deleteOrganization);
 
 export default router;

@@ -61,18 +61,23 @@ export const logOut = async (): Promise<ApiResponse<null>> => {
 };
 
 // 5. Update User
+// Update User
 export const updateUser = async (
-  updateData: UpdateUserPayload
+  userId: string,
+  updatedData: UpdateUserPayload
 ): Promise<ApiResponse<User>> => {
   try {
-    const response: AxiosResponse<User> = await axios.patch(
-      `${BASE_URL}/users/updateUser`,
-      updateData,
-      { withCredentials: true }
+    const response = await axios.patch<ApiResponse<User>>(
+      `${BASE_URL}/updateUser`,
+      {
+        userId,
+        ...updatedData,
+      }
     );
-    return { success: true, data: response.data };
+    return response.data;
   } catch (error) {
-    return { success: false, error: handleAxiosError(error) };
+    console.error("Error updating user:", error);
+    throw error;
   }
 };
 
@@ -117,34 +122,100 @@ export const getUserByUsername = async (
   }
 };
 
-// 9. Send Friend Request
+// Send Friend Request
 export const sendFriendRequest = async (
+  userId: string,
   targetUserId: string
 ): Promise<ApiResponse<null>> => {
   try {
-    await axios.post(
-      `${BASE_URL}/users/sendFriendRequest`,
-      { targetUserId },
-      { withCredentials: true }
+    const response = await axios.post<ApiResponse<null>>(
+      `${BASE_URL}/sendFriendRequest`,
+      {
+        userId,
+        targetUserId,
+      }
     );
-    return { success: true, data: null }; // Return success directly
+    return response.data;
   } catch (error) {
-    return { success: false, error: handleAxiosError(error) };
+    console.error("Error sending friend request:", error);
+    throw error;
   }
 };
 
-// 10. Remove Friend
+// Remove Friend
 export const removeFriend = async (
+  userId: string,
   targetUserId: string
 ): Promise<ApiResponse<null>> => {
   try {
-    await axios.post(
-      `${BASE_URL}/users/removeFriend`,
-      { targetUserId },
-      { withCredentials: true }
+    const response = await axios.post<ApiResponse<null>>(
+      `${BASE_URL}/removeFriend`,
+      {
+        userId,
+        targetUserId,
+      }
     );
-    return { success: true, data: null };
+    return response.data;
   } catch (error) {
-    return { success: false, error: handleAxiosError(error) };
+    console.error("Error removing friend:", error);
+    throw error;
+  }
+};
+
+// Join Event
+export const joinEvent = async (
+  eventId: string,
+  username: string
+): Promise<ApiResponse<null>> => {
+  try {
+    const response = await axios.post<ApiResponse<null>>(
+      `${BASE_URL}/events/join`,
+      {
+        eventId,
+        username,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error joining event:", error);
+    throw error;
+  }
+};
+
+// Leave Event
+export const leaveEvent = async (
+  eventId: string,
+  username: string
+): Promise<ApiResponse<null>> => {
+  try {
+    const response = await axios.post<ApiResponse<null>>(
+      `${BASE_URL}/events/leave`,
+      {
+        eventId,
+        username,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error leaving event:", error);
+    throw error;
+  }
+};
+
+// Delete User
+export const deleteUser = async (
+  username: string
+): Promise<ApiResponse<null>> => {
+  try {
+    const response = await axios.delete<ApiResponse<null>>(
+      `${BASE_URL}/delete`,
+      {
+        data: { username },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
   }
 };
