@@ -43,7 +43,8 @@ const PageLayout = ({ children }) => {
 
                     boxSizing: "border-box", // Prevent padding overflow
                     textAlign: "center", // Optional: Center text inside content
-                    bgcolor: " hsl(196, 100%, 98%)",
+                    backgroundImage:
+                        "linear-gradient(to right, #ebf8ff, #e9d8fd)",
                     // border: "5px solid green",
                 }}
             >
